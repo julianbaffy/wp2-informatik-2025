@@ -33,37 +33,33 @@
 </section>
 
 <div class="content-box flex justify-between m-4">
-	<div class="image-container -translate-x-10 -translate-y-6 md:translate-y-0">
+	<!--<div class="image-container -translate-x-10 -translate-y-6 md:translate-y-0">
 		<DeviceMockups />
-	</div>
+	</div>-->
 	<div class="description -translate-y-12 md:translate-y-0">
 		<h3 class="websites text-[27px] mb-6 md:mb-2 md:text-[29px]">Websites mit HTML und CSS</h3>
 		<p class="mt-3 md:text-[16px]">
-			Was passiert eigentlich im Browser? Wie funktioniert eine Website?
-			Mit HTML und CSS gestalten die Schülerinnen und Schüler Schritt für Schritt ihre eigene Website –
-			vom ersten "Hello World" bis zur fertigen Projektseite. Einige Ergebnisse sind hier zu sehen.
+			Hier kann eine Box mit Infos, Link zum Projekt und ggf Bild(ern) entstehen.
 		</p>
-		<div class="button-container flex items-center">
+		<!--<div class="button-container flex items-center">
 			<a href="/websites" class="link-button dark"><span class="button-text">Projekte ansehen</span></a>
-		</div>
+		</div>-->
 	</div>
 </div>
 
 <div class="content-box-dark flex justify-between m-4">
 	<div class="description md:pt-2">
-		<h3 class="games leading-10 md:leading-1 mb-6 text-[65px]">Spiele mit <!--<br class="block sm:hidden">--> Pygame Zero</h3>
+		<h3 class="leading-2 mb-6 mt-2">Zweites Projekt</h3>
 		<p class="mt-10">
-			Mit der Python-Bibliothek Pygame Zero entwickeln die Schülerinnen und Schüler ihr erstes eigenes Computerspiel.
-			Nach einem klassischen Spaceshooter entstehen eigene kreative Spielideen – programmiert mit Python und viel Fantasie.
-			Probiere die fertigen Spiele selbst aus.
+			So könnte eine dunkte Box für ein anderes Projekt aussehen.
 		</p>
-		<div class="button-container flex items-center">
+		<!--<div class="button-container flex items-center">
 			<a href="/pygames" class="link-button"><span class="button-text">Projekte ansehen</span></a>
-		</div>
+		</div>-->
 	</div>
-	<div class="image-container">
+	<!--<div class="image-container">
 		<img src={Spaceshooter} alt="Screenshot of Spaceshooter Game">
-	</div>
+	</div>-->
 </div>
 
 <style>
