@@ -1,0 +1,38 @@
+[
+  {
+    "courseID": "1",
+    "teacher": "BEH",
+    "title": "Test2 S.",
+    "downloadUrl": "/pygames/1_BEH/Test2_S./download.zip"
+  },
+  {
+    "courseID": "1",
+    "teacher": "BEH",
+    "title": "Test3 S.",
+    "downloadUrl": "/pygames/1_BEH/Test3_S./download.zip"
+  },
+  {
+    "courseID": "1",
+    "teacher": "BEH",
+    "title": "Test4 S. Copy 2",
+    "downloadUrl": "/pygames/1_BEH/Test4_S. copy 2/download.zip"
+  },
+  {
+    "courseID": "1",
+    "teacher": "BEH",
+    "title": "Test5 S.",
+    "downloadUrl": "/pygames/1_BEH/Test5_S./download.zip"
+  },
+  {
+    "courseID": "1",
+    "teacher": "BEH",
+    "title": "Test6 S.",
+    "downloadUrl": "/pygames/1_BEH/Test6_S./download.zip"
+  },
+  {
+    "courseID": "1",
+    "teacher": "BEH",
+    "title": "Test S.",
+    "downloadUrl": "/pygames/1_BEH/Test_S./download.zip"
+  }
+]
