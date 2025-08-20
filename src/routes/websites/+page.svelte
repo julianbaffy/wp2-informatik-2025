@@ -41,16 +41,12 @@
 <section class="content">
 	<div class="description">
 		<p>
-			Direkt zu Beginn des Wahlpflichtfachs Informatik in der neunten Klasse machen die Schülerinnen und Schüler erste Erfahrungen
-			mit dem Erstellen und Gestalten von Websites. Im Sinne des Memes fangen wir dabei nicht mit einem hoch abstrakten und komplexen
-			Framework an, sondern starten mit den Basics: HTML – der Auszeichnungssprache,
-			die hinter jeder Website im World Wide Web steht. Anschließend kommt mit CSS das Styling hinzu: Farben, Layouts und Schriften
-			werden angepasst. Am Ende steht ein eigenes kleines Website-Projekt, bei dem kreative Ideen mit technischem Wissen verbunden werden.
+			Hier können Informationen und Bilder zum Projekt angezeigt werden.
 		</p>
 	</div>
-	<div class="info">
+	<!--<div class="info">
 		<img src={meme} alt="Übersicht" class="mt-6 w-full" />
-	</div>
+	</div>-->
 </section>
 
 <WebsiteTabs courses={data.courses} links={data.links} startPosition={manualStartPosition}  smallButtons={smallButtons} />
