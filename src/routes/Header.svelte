@@ -33,7 +33,7 @@
 	</nav>
 
 	<div class="corner transparent">
-		<a href="https://github.com/julianbaffy/wp2-coursepage">
+		<a href="https://github.com/julianbaffy/wp2-informatik-2025">
 			<img src={github} alt="GitHub" />
 		</a>
 	</div>

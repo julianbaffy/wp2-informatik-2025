@@ -3,7 +3,7 @@ This homepage was created to showcase the results of student's projects. The stu
 
 The students' websites and games are displayed in gids, organized into tabs by course.
 
-The website is currently deployed on Vercel: https://wp2coursepage.vercel.app/ .
+The website is currently deployed on Vercel: https://wp2-informatik-2025.vercel.app/ .
 
 # Manage courses and student's pages and games
 
