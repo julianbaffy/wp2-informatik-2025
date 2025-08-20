@@ -1,44 +1,32 @@
 [
   {
-    "courseID": "2",
+    "courseID": "1",
     "teacher": "BAF",
-    "title": "Antonia P",
-    "url": "studentpages/2_BAF/Antonia_P/index.html"
+    "title": "Beispiel1 B.",
+    "url": "studentpages/1_BAF/Beispiel1_B./index.html"
   },
   {
-    "courseID": "2",
+    "courseID": "1",
     "teacher": "BAF",
-    "title": "Kira S",
-    "url": "studentpages/2_BAF/Kira_S/index.html"
+    "title": "Beispiel2 B.",
+    "url": "studentpages/1_BAF/Beispiel2_B./index.html"
   },
   {
-    "courseID": "2",
+    "courseID": "1",
     "teacher": "BAF",
-    "title": "Leopold LS",
-    "url": "studentpages/2_BAF/Leopold_LS/index.html"
+    "title": "Beispiel3 B.",
+    "url": "studentpages/1_BAF/Beispiel3_B./index.html"
   },
   {
-    "courseID": "2",
+    "courseID": "1",
     "teacher": "BAF",
-    "title": "Margo W",
-    "url": "studentpages/2_BAF/Margo_W/index.html"
+    "title": "Beispiel4 B.",
+    "url": "studentpages/1_BAF/Beispiel4_B./index.html"
   },
   {
-    "courseID": "2",
+    "courseID": "1",
     "teacher": "BAF",
-    "title": "Mattes P",
-    "url": "studentpages/2_BAF/Mattes_P/index.html"
-  },
-  {
-    "courseID": "2",
-    "teacher": "BAF",
-    "title": "Neele S",
-    "url": "studentpages/2_BAF/Neele_S/index.html"
-  },
-  {
-    "courseID": "2",
-    "teacher": "BAF",
-    "title": "Paul S",
-    "url": "studentpages/2_BAF/Paul_S/index.html"
+    "title": "Beispiel5 B.",
+    "url": "studentpages/1_BAF/Beispiel5_B./index.html"
   }
 ]
