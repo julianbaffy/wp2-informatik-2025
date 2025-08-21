@@ -36,7 +36,7 @@
 	<!--<div class="image-container -translate-x-10 -translate-y-6 md:translate-y-0">
 		<DeviceMockups />
 	</div>-->
-	<div class="description -translate-y-12 md:translate-y-0">
+	<div class="description">
 		<h3 class="websites text-[27px] mb-6 md:mb-2 md:text-[29px]">Websites mit HTML und CSS</h3>
 		<p class="mt-3 md:text-[16px]">
 			Hier kann eine Box mit Infos, Link zum Projekt und ggf Bild(ern) entstehen.
