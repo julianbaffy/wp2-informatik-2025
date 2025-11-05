@@ -1,0 +1,67 @@
+* { 
+   max-width: 800px;    margin: auto; 
+}
+
+
+nav { 
+    background-color: white;     text-align: center; 
+} 
+
+section { 
+    background-color: lightgray; 
+    background-color: DarkSlateGrey;
+	color: white;
+} 
+
+footer { 
+    background-color: white;    
+    text-align: center; 
+}  
+
+nav ul li {     display: inline; 
+    		margin: 30px; 
+} 
+
+h2 {
+font-size: 20px;
+}
+h3 {
+	font-size: 20px;
+}
+
+header {  background-image:
+	url("../bilder/basketball.jpg");
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+	display: flex;
+         color: white;
+}
+
+
+body   { 
+     margin: 100px 40px 10px 70px;
+    font-family: Garamond;
+	}
+div {
+text-align: center; }
+
+ p {
+          margin: 5px 50px 5px 50px;
+          text-transform: none;
+          border: 1px dotted orange;
+          letter-spacing: 2px;
+     }
+ 
+h1    {
+    text-decoration: underline;
+    letter-spacing: 1px;
+     }
+  
+
+ 
+ 
+
+
+
+
+	
