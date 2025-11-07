@@ -1,0 +1,66 @@
+body {
+	background-color:black; 
+	font-family: georgia,serif; 
+	background-image: url("Bilder/wokle.jpg");  
+	background-repeat: no-repeat; 
+	background-attachment:fixed; 
+	background-position:bottom; 
+}
+
+* { 
+   width: 800px;    margin: auto; 
+}
+
+header {     height: 230px; 
+	background-image: url("Bilder/Naruto.png");
+	background-size: 700px 230px;
+	background-repeat: no-repeat;
+	background-position:center;
+	color: orange;
+	-webkit-text-stroke: 0.7px black;
+
+	
+	letter-spacing:3px;
+} 
+
+nav { 
+    background-color: black; 
+	
+	color: white;  
+	
+	text-align: center;
+} 
+
+section { 
+    background-color: darkred; 
+	
+	color: white;
+	
+	border-width:1px;
+	
+	border-style:solid;
+	
+	border-color:white;
+
+	padding: 20px;
+
+	border-radius: 20px;
+	
+		letter-spacing:3px;
+} 
+
+
+footer { 
+    background-color: darkred; color: white;
+    text-align: center; 
+	letter-spacing:2px;
+	border-radius: 50px;
+}  
+
+nav ul li {     display: inline; 
+    		margin: 30px; 
+} 
+
+a {
+	color:white
+}

@@ -1,0 +1,42 @@
+body {
+
+	background-color: darkgrey;
+
+	font-family: georgia,serif; 
+
+	text-align: center;
+
+}
+
+* { 
+   width: 800px;    margin: auto; 
+}
+
+header {   
+} 
+
+nav { 
+    background-color: darkgrey;
+	
+	color: darkgrey;
+	
+	text-align: center;
+} 
+
+section { 
+    background-color: lightgrey;
+	
+	color: blak;
+	
+	border-width:1px;
+	
+	border-style:solid;
+	
+	border-color:black;
+	
+	letter-spacing:3px;
+
+	padding: 20px;
+
+	border-radius: 30px;
+} 

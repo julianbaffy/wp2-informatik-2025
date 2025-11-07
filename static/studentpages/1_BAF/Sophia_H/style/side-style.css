@@ -1,0 +1,408 @@
+body {
+
+
+	font-family: georgia,serif; 
+	background-image: url("Bilder/wokle.jpg"); 
+	background-size: 300px 210px;
+	background-repeat: repeat; 
+	background-attachment:fixed; 
+	background-position:bottom;
+}
+
+* { 
+   width: 800px;    margin: auto; 
+}
+
+header {   
+} 
+
+nav { 
+    background-color: black; 
+	
+	color: white;  
+	
+	text-align: center;
+} 
+
+section { 
+    background-color: darkred; 
+	
+	color: white;
+
+	padding: 20px;
+
+	border-radius: 10px;
+	
+	border-width:1px;
+	
+	border-style:solid;
+	
+	border-color:white;
+	
+	letter-spacing:3px;
+} 
+
+.GründungUNDZiele{
+
+	margin-top: 10px;
+
+	margin-bottom: 5px;
+
+	border-radius: 10px;
+
+	color: black;
+
+	border-width:1px;
+
+	border-style:solid;
+
+	border-color:white;
+
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+	background-color: brown;
+
+	padding: 20px;
+
+	letter-spacing:1px;
+
+}
+
+
+.GruendungUNDZiele:hover {
+
+	transform: translateY(-5px);
+
+	box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+
+}
+
+
+
+.Pain {
+	
+
+	(* background-image: url("Bilder/Pain.png");
+
+	background-position: right top;
+
+	background-size: 300px 400px; *)
+
+	background-repeat: no-repeat;
+
+	margin-top: 10px;
+	
+	margin-bottom: 200px;
+	
+	background-color: orange; 
+	
+	color: black;
+	
+	border-width:1px;
+	
+	border-style:solid;
+	
+	border-color:white;
+	
+	letter-spacing:2px;
+
+	padding: 20px;
+
+	border-radius: 50px;
+
+
+	
+}
+
+.Konan {
+
+
+	background-repeat: no-repeat;
+	
+	margin-top: 100px;
+	
+	margin-bottom: 200px;
+	
+	background-color: purple; 
+	
+	color: black;
+	
+	border-width:1px;
+	
+	border-style:solid;
+	
+	border-color:white;
+	
+	letter-spacing:2px;
+
+	padding: 20px;
+
+	border-radius: 50px;
+
+
+	
+}
+
+.Itachi {
+	
+	background-repeat: no-repeat;
+
+	margin-top: 100px;
+	
+	margin-bottom: 200px;
+	
+	background-color: darkred;
+	
+	color: black;
+	
+	border-width:1px;
+	
+	border-style:solid;
+	
+	border-color:white;
+	
+	letter-spacing:2px;
+
+	padding: 20px;
+
+	border-radius: 50px;
+
+
+	
+}
+
+.Kisame {
+	
+	margin-top: 100px;
+	
+	margin-bottom: 200px;
+	
+	background-color: lightblue;
+	
+	color: black;
+	
+	border-width:1px;
+	
+	border-style:solid;
+	
+	border-color:white;
+	
+	letter-spacing:2px;
+
+	padding: 20px;
+
+	border-radius: 50px;
+
+
+	
+}
+
+.Deidara {
+	
+	margin-top: 100px;
+	
+	margin-bottom: 200px;
+	
+	background-color: yellow; 
+	
+	color: black;
+	
+	border-width:1px;
+	
+	border-style:solid;
+	
+	border-color: white;
+	
+	letter-spacing:2px;
+
+	padding: 20px;
+
+	border-radius: 50px;
+
+
+	
+}
+
+.Sasori {
+	
+	margin-top: 100px;
+	
+	margin-bottom: 200px;
+	
+	background-color: brown;
+	
+	color: black;
+	
+	border-width:1px;
+	
+	border-style:solid;
+	
+	border-color: white;
+	
+	letter-spacing:2px;
+
+	padding: 20px;
+
+	border-radius: 50px;
+
+
+	
+}
+
+.Hidan {
+	
+	margin-top: 100px;
+	
+	margin-bottom: 200px;
+	
+	background-color: lightgrey; 
+	
+	color: black;
+	
+	border-width:1px;
+	
+	border-style:solid;
+	
+	border-color: white;
+	
+	letter-spacing:2px;
+
+	padding: 20px;
+
+	border-radius: 50px;
+
+
+	
+}
+
+
+.Kakuzu {
+
+	margin-top: 100px;
+
+	margin-bottom: 200px;
+
+	background-color: brown;
+
+	color:black;
+
+	border-width: 1px;
+
+	border-style: solid;
+
+	border-color: white;
+
+	letter-spacing: 2px;
+
+	padding: 20px;
+
+	border-radius: 50px;
+
+
+}
+
+
+.Zetsu {
+
+	margin-top: 100px;
+
+	margin-bottom: 200px;
+
+	background-color: green;
+
+	color: black;
+
+	border-width: 1px;
+
+	border-style: solid;
+
+	border-color: white;
+
+	letter-spacing: 2px;
+
+	padding: 20px;
+
+	border-radius: 50px;
+
+
+}
+
+
+.Tobi {
+
+	margin-top: 100px;
+
+	margin-bottom: 200px;
+
+	background-color: darkorange;
+
+	color: black;
+
+	border-width: 1px;
+
+	border-style: solid;
+
+	border-color:white;
+
+	letter-spacing: 2px;
+
+	padding: 20px;
+
+	border-radius: 50px;
+
+
+}
+
+
+.Orochimaru {
+
+	margin-top: 100px;
+
+	margin-bottom: 200px;
+
+	background-color: purple;
+
+	color: black;
+
+	border-width: 1px;
+
+	border-style: solid;
+
+	border-color: white;
+
+	letter-spacing: 2px;
+
+	padding: 20px;
+
+	border-radius: 50px;
+
+
+}
+
+
+
+content p {
+		margin: 10px 40px 10px
+		70px;
+	
+	}
+
+footer { 
+	color: black;
+    background-color: darkred;
+	margin-top: 10px;
+	border-radius: 50px;
+    text-align: center; 
+	letter-spacing:2px;
+	border-radius: 50px;
+}  
+
+nav ul li {     display: inline; 
+    		margin: 30px; 
+} 
+
+a {
+	color:white
+}
+
+
