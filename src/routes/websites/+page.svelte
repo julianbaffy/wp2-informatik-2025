@@ -25,7 +25,11 @@
 
 <svelte:head>
 	<title>WP2 - Websites</title>
-	<meta name="description" content="Showcase of students products in the website project" />
+	<meta name="description" content="A showcase of student-created websites" />
+	<meta property="og:title" content="The Rock" />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="http://localhost:5173/websites" />
+	<meta property="og:image" content="favicon.jpg" />
 </svelte:head>
 
 <section>
