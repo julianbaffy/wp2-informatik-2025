@@ -26,9 +26,9 @@
 <svelte:head>
 	<title>WP2 - Websites</title>
 	<meta name="description" content="A showcase of student-created websites" />
-	<meta property="og:title" content="The Rock" />
+	<meta property="og:title" content="Website Project" />
 	<meta property="og:type" content="website" />
-	<meta property="og:url" content="http://localhost:5173/websites" />
+	<meta property="og:url" content="https://wp2-informatik-2025.vercel.app/websites" />
 	<meta property="og:image" content="favicon.jpg" />
 </svelte:head>
 
