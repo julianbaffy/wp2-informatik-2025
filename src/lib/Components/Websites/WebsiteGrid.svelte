@@ -26,6 +26,14 @@
 	text-decoration: underline;
   }
 
+  .tile-group {
+    transition: transform 0.2s ease;
+  }
+
+  .tile-group:hover {
+    transform: translateY(-0.3em);
+  }
+
   .tile {
     background-color: rgba(255, 255, 255, 0.4); /* statt opacity */
     display: flex;
@@ -37,14 +45,13 @@
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 0.5em;
     padding: 1.17em;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: box-shadow 0.2s ease;
     box-shadow:
-    0.235em 0.235em 0.588em rgba(0, 0, 0, 0.1),  /* standard */
+    0.235em 0.235em 0.588em rgba(0, 0, 0, 0.1);  /* standard */
     font-size: 17px;
   }
 
-  .tile:hover {
-    transform: translateY(-0.3em);
+  .tile-group:hover .tile {
     box-shadow: 0 0.471em 0.706em rgba(0, 0, 0, 0.15);
   }
 
@@ -67,15 +74,17 @@
 
   {:else}
     {#each filteredLinks as link}
-      <a href="{link.url}" target="_blank">
+    <div class="relative tile-group">
+      <a href="{link.url}">
         <div class="tile">
           <h3>{link.title}</h3>
           {#if link.description}
             <p>{link.description}</p>
           {/if}
-          <div class="absolute top-2 right-2 opacity-50 hover:opacity-100"><ArrowToIcon/></div>
         </div>
       </a>
+      <a href="{link.url}" target="_blank" class="absolute arrow-button top-2 right-2 opacity-50 hover:opacity-100"><ArrowToIcon/></a>
+      </div>
     {/each}
   {/if}
 </div>
