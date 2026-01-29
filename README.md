@@ -23,7 +23,7 @@ There is no limit to the number of student pages within a course.
   ```
   static/studentpages/[courseID]\_[teacherName]/[studentName]\_[studentSurname]/...
   ```
-  - `courseID` must be a number
+  - `courseID` must be a number or a single letter.
   - Each student’s directory must contain a file named `index.html` or `Index.html`. </br>
   This file will be used as starting page for the homepage and linked linked the grid.
 
