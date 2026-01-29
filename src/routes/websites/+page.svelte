@@ -51,6 +51,7 @@
 			Framework an, sondern starten mit den Basics: HTML – der Auszeichnungssprache,
 			die hinter jeder Website im World Wide Web steht. Anschließend kommt mit CSS das Styling hinzu: Farben, Layouts und Schriften
 			werden angepasst. Am Ende steht ein eigenes kleines Website-Projekt, bei dem kreative Ideen mit technischem Wissen verbunden werden.
+			Einige Ergebnisse werden hier präsentiert.
 		</p>
 	</div>
 	<div class="info">
