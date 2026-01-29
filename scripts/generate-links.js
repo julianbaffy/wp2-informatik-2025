@@ -20,9 +20,9 @@ async function generateStudentPagesLinks() {
     const statCourse = await stat(coursePath);
     if (!statCourse.isDirectory()) continue;
 
-    const courseMatch = courseFolder.match(/^(\d+)_([A-ZÄÖÜa-zäöü]+)$/);
+    const courseMatch = courseFolder.match(/^([A-ZÄÖÜa-zäöü]|\d+)_([A-ZÄÖÜa-zäöü]+)$/);
     if (!courseMatch) {
-      console.warn(`⚠️ Ordnername "${courseFolder}" entspricht nicht dem Muster "Zahl_Buchstaben"`);
+      console.warn(`⚠️ Ordnername "${courseFolder}" entspricht nicht dem Muster "Zahl_Buchstaben" oder "Zeichen_Buchstaben"`);
       continue;
     }
 
@@ -74,7 +74,7 @@ async function generateGameLinks() {
     if (!statCourse.isDirectory()) continue;
 
     const studentDirs = await readdir(coursePath);
-    const courseMatch = courseFolder.match(/^(\d+)_([A-ZÄÖÜa-zäöü]+)$/);
+    const courseMatch = courseFolder.match(/^([A-ZÄÖÜa-zäöü]|\d+)_([A-ZÄÖÜa-zäöü]+)$/);
     if (!courseMatch) {
       console.warn(`⚠️ Ungültiger Kursordner "${courseFolder}"`);
       continue;
