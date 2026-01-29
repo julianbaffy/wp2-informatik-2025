@@ -34,5 +34,11 @@
     "teacher": "BAF",
     "title": "Sophia H",
     "url": "studentpages/1_BAF/Sophia_H/index.html"
+  },
+  {
+    "courseID": "Z",
+    "teacher": "KURS",
+    "title": "Nachname Initial.",
+    "url": "studentpages/Z_KURS/Nachname_Initial./index.html"
   }
 ]

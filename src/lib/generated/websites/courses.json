@@ -2,5 +2,9 @@
   {
     "courseID": "1",
     "teacher": "BAF"
+  },
+  {
+    "courseID": "Z",
+    "teacher": "KURS"
   }
 ]
