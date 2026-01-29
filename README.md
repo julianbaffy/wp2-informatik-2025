@@ -10,7 +10,9 @@ The website is currently deployed on Vercel: https://wp2-informatik-2025.vercel.
 ## Open Tabs
 By default, the `WebsiteTabs` or `GameTabs` component will open the first non-empty course, or the first course if all are empty.
 You can change this by setting the `manualStartPosition` variable in `src/routes/websites/+page.svelte` or `src/routes/pygames/+page.svelte` to any `courseID`.
-**This is not recommended**. If you want a specific tab to be open when sharing the page, this can be handled via the URL's searchParams, which are set automatically when a tab is opened (e.g., ...?course=2).
+**This is not recommended**.
+
+If you want a specific tab to be open when sharing the page, this can be handled via the URL's searchParams, which are set automatically when a tab is opened (e.g., ...?course=2).
 
 ## Limits
 The layout includes breakpoints to support all screen sizes for up to 4 courses.
@@ -25,7 +27,7 @@ There is no limit to the number of student pages within a course.
   ```
   - `courseID` must be a number or a single letter.
   - Each student’s directory must contain a file named `index.html` or `Index.html`. </br>
-  This file will be used as starting page for the homepage and linked linked the grid.
+  This file will be used as starting page for the homepage and linked the grid.
 
 2. Deploy by pushing the commit to GitHub (the site will be automatically deployed via Vercel). Locally run `npm run dev`.
 
