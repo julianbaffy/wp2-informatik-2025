@@ -84,7 +84,7 @@
         </div>
       </a>
       <a href="{link.url}" target="_blank" class="absolute arrow-button top-2 right-2 opacity-50 hover:opacity-100"><ArrowToIcon/></a>
-      </div>
+    </div>
     {/each}
   {/if}
 </div>
