@@ -95,19 +95,6 @@
 		margin-top: 3em;
 	}
 
-	.link-button {
-		border-radius: 2.5em;
-	}
-
-	.link-button.dark:hover {
-		border: solid;
-		border-width: 1.5px;
-	}
-
-	.link-button:hover {
-		border: solid;
-		border-width: 1.5px;
-	}
 
 	@media (max-width: 768px) {
 	.content-box {
