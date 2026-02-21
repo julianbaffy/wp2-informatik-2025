@@ -40,6 +40,11 @@ window.addEventListener("mousemove", (event) => {
   mouse.y = event.y;
 });
 
+window.addEventListener("touchmove", (event) => {
+  mouse.x = event.touches[0].clientX;
+  mouse.y = event.touches[0].clientY;
+});
+
 class Particle {
   constructor() {
     this.reset();
@@ -151,6 +156,10 @@ function animate() {
 animate();
 
 document.addEventListener("mousemove", () => {
+  particles.forEach(p => p.verwirbeln());
+});
+
+document.addEventListener("touchmove", () => {
   particles.forEach(p => p.verwirbeln());
 });
 </script>

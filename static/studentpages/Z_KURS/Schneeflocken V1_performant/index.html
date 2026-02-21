@@ -45,6 +45,9 @@ window.addEventListener("resize", () => {
 window.addEventListener("mousemove", (event) => {
   verwirbeln(event.x, event.y);
 });
+window.addEventListener("touchmove", (event) => {
+  verwirbeln(event.touches[0].clientX, event.touches[0].clientY);
+});
 
 //start
 for (let i = 0; i < count; i++) {

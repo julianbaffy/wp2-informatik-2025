@@ -55,6 +55,18 @@ window.addEventListener("mousemove", (event) => {
   verwirbeln(event.x, event.y);
 });
 
+window.addEventListener("touchmove", (event) => {
+  const touchX = event.touches[0].clientX;
+  const touchY = event.touches[0].clientY;
+  
+  mouseVX = touchX - lastMouseX;
+  mouseVY = touchY - lastMouseY;
+  lastMouseX = touchX;
+  lastMouseY = touchY;
+  
+  verwirbeln(touchX, touchY);
+});
+
 //start
 for (let i = 0; i < count; i++) {
   x[i] = Math.random() * canvas.width;
