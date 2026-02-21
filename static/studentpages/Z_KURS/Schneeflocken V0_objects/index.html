@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<title>Snow Particles</title>
+<style>
+  body {
+    margin: 0;
+    overflow: hidden;
+    background: radial-gradient(circle at center, #0f2027, #203a43, #2c5364);
+  }
+  canvas {
+    display: block;
+  }
+</style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+
+<script>
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+window.addEventListener("resize", () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+
+const mouse = {
+  x: undefined,
+  y: undefined,
+  radius: 120
+};
+
+window.addEventListener("mousemove", (event) => {
+  mouse.x = event.x;
+  mouse.y = event.y;
+});
+
+class Particle {
+  constructor() {
+    this.reset();
+  }
+
+  reset() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 3 + 1;
+    this.maxSpeedY = Math.round((Math.random() * 0.2 + 0.001) * 100) / 100;
+    this.maxSpeedX = Math.round((Math.random() - 0.5) * 0.2 * 100) / 100;
+    this.accelY = 0.01;
+    this.accelX = 0.005;
+    this.speedX = 0;
+    this.speedY = 0;
+  }
+
+  accelerate() {
+    const deltaY = this.maxSpeedY - this.speedY;
+    if (Math.abs(deltaY) <= this.accelY) {
+      this.speedY = this.maxSpeedY;
+    } else {
+      this.speedY += Math.sign(deltaY) * this.accelY;
+    }
+
+    const deltaX = this.maxSpeedX - this.speedX;
+    if (Math.abs(deltaX) <= this.accelX) {
+      this.speedX = this.maxSpeedX;
+    } else {
+      this.speedX += Math.sign(deltaX) * this.accelX;
+    }
+  }
+
+  update() {
+    this.accelerate();
+    this.y += this.speedY;
+    this.x += this.speedX;
+
+    // Wenn außerhalb → zufällig von einer Seite neu starten
+    if (this.y > canvas.height || this.y<-10 || this.x<-10 || this.x>canvas.width+10) {
+        const side = Math.floor(Math.random() * 4); // 0=oben, 1=rechts, 2=unten, 3=links
+        switch (side) {
+            case 0: // oben
+                this.x = Math.random() * canvas.width;
+                this.y = -10;
+                break;
+            case 1: // rechts
+                this.x = canvas.width + 10;
+                this.y = Math.random() * canvas.height;
+                break;
+            case 2: // unten
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + 10;
+                break;
+            case 3: // links
+                this.x = -10;
+                this.y = Math.random() * canvas.height;
+                break;
+        }
+        this.speedX = 0;
+        this.speedY = 0;
+    }
+  }
+
+  verwirbeln() {
+    // Maus-Verwirbelung
+    if (mouse.x && mouse.y) {
+      const dx = this.x - mouse.x;
+      const dy = this.y - mouse.y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (distance < mouse.radius) {
+        const force = (mouse.radius - distance) / mouse.radius;
+        const angle = Math.atan2(dy, dx);
+        if(Math.abs(this.speedX) <= Math.abs(this.maxSpeedY) && Math.abs(this.speedY) <= Math.abs(this.maxSpeedY)){
+          this.speedX += Math.cos(angle) * force * 0.25;
+          this.speedY += Math.sin(angle) * force * 0.25;
+        }
+      }
+    }
+  }
+
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = "white";
+    ctx.fill();
+  }
+}
+
+const particles = [];
+const particleCount = 400;
+
+for (let i = 0; i < particleCount; i++) {
+  particles.push(new Particle());
+}
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  particles.forEach(p => {
+    p.update();
+    p.draw();
+  });
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+
+document.addEventListener("mousemove", () => {
+  particles.forEach(p => p.verwirbeln());
+});
+</script>
+</body>
+</html>

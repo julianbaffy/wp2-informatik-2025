@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<title>Snow Particles</title>
+<style>
+  body {
+    margin: 0;
+    overflow: hidden;
+    background: radial-gradient(circle at center, #0f2027, #203a43, #2c5364);
+  }
+  canvas {
+    display: block;
+  }
+</style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+
+<script>
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+const count = 400;
+
+const x = new Float32Array(count);
+const y = new Float32Array(count);
+const speedX = new Float32Array(count);
+const speedY = new Float32Array(count);
+const accelX = new Float32Array(count);
+const accelY = new Float32Array(count);
+const size = new Float32Array(count);
+const maxSpeedX = new Float32Array(count);
+const maxSpeedY = new Float32Array(count);
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+window.addEventListener("resize", () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+
+let lastMouseX = 0;
+let lastMouseY = 0;
+let mouseVX = 0;
+let mouseVY = 0;
+
+window.addEventListener("mousemove", (event) => {
+  mouseVX = event.x - lastMouseX;
+  mouseVY = event.y - lastMouseY;
+  lastMouseX = event.x;
+  lastMouseY = event.y;
+  
+  verwirbeln(event.x, event.y);
+});
+
+//start
+for (let i = 0; i < count; i++) {
+  x[i] = Math.random() * canvas.width;
+  y[i] = Math.random() * canvas.height;
+  size[i] = Math.random() * 3 + 1;
+  maxSpeedY[i] = (Math.random() - 0.5) * 0.2;
+  maxSpeedX[i] = (Math.random() - 0.5) * 0.2;
+  accelY[i] = 0.01;
+  accelX[i] = 0.01;
+  speedX[i] = 0;
+  speedY[i] = 0;
+}
+
+  
+function verwirbeln(mouseX, mouseY) {
+
+  const radius = 120;
+  const radiusSq = radius * radius;
+
+  // Mausgeschwindigkeit berechnen
+  const mouseSpeedSq = mouseVX * mouseVX + mouseVY * mouseVY;
+
+  if (mouseSpeedSq < 0.01) return; // Maus steht → kein Effekt
+
+  for (let i = 0; i < count; i++) {
+
+    const dx = x[i] - mouseX;
+    const dy = y[i] - mouseY;
+    const distSq = dx * dx + dy * dy;
+    const dot = dx * mouseVX + dy * mouseVY;
+
+    if (distSq < radiusSq) {
+      const force = 1 - distSq / radiusSq;
+      const angle = Math.atan2(dy, dx);
+      
+      if (dot > 0) { // Partikel vor Mausbewegung
+      speedX[i] += Math.cos(angle) * force * 0.05;
+      speedY[i] += Math.sin(angle) * force * 0.05;
+      }
+      else {
+        speedX[i] -= Math.cos(angle) * force * 0.03;
+        speedY[i] -= Math.sin(angle) * force * 0.03;
+      }
+      
+    }
+
+  }
+}
+  
+
+function animate() {
+
+  //update position and check if outside
+  for (let i = 0; i < count; i++) {
+    speedX[i] *= 0.995;
+    speedY[i] *= 0.995;
+    speedX[i] += (maxSpeedX[i] - speedX[i]) * 0.075;
+    speedY[i] += (maxSpeedY[i] - speedY[i]) * 0.075;
+
+    y[i] += speedY[i];
+    x[i] += speedX[i];
+
+    if (y[i] > canvas.height || y[i]<-10 || x[i]<-10 || x[i]>canvas.width+10) {
+        const side = Math.floor(Math.random() * 4); // 0=oben, 1=rechts, 2=unten, 3=links
+      switch (side) {
+          case 0: // oben
+              x[i] = Math.random() * canvas.width;
+              y[i] = -10;
+              break;
+          case 1: // rechts
+              x[i] = canvas.width + 10;
+              y[i] = Math.random() * canvas.height;
+              break;
+          case 2: // unten
+              x[i] = Math.random() * canvas.width;
+              y[i] = canvas.height + 10;
+              break;
+          case 3: // links
+              x[i] = -10;
+              y[i] = Math.random() * canvas.height;
+              break;
+      }
+      speedX[i] = maxSpeedX[i];
+      speedY[i] = maxSpeedY[i];
+    }
+  }
+  
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+  ctx.beginPath();
+
+  for (let i = 0; i < count; i++) {
+    ctx.moveTo(x[i] + size[i], y[i]);
+    ctx.arc(x[i], y[i], size[i], 0, Math.PI * 2);
+  }
+
+  ctx.fillStyle = "white";
+  ctx.fill();
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+
+</script>
+</body>
+</html>
