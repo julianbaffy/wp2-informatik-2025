@@ -148,8 +148,8 @@
 	left: 0;
 	width: 100%;
 	height:8em; /* oder größer bei Bedarf */
-	backdrop-filter: blur(30px);
 	-webkit-backdrop-filter: blur(30px);
+    backdrop-filter: blur(30px);
 	mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
 	-webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
 	z-index: 10; /* unter .tab-controls (z-20), aber über allem anderen */
