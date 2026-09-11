@@ -134,6 +134,8 @@
 }
 
     .tab-controls{
+        overflow-x: hidden;
+        overflow-y: hidden;
         pointer-events: auto;
     }
 
