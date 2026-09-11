@@ -62,7 +62,7 @@
 		<div class="info-item">
 			<span class="icon text-gray-200"><Online /></span>
 			<div class="explanation">
-				Zurzeit ist es noch nicht möglich, die Spiele direkt im Browser zu spielen.
+				Direkt im Browser: das Spiel öffnet sich in einem neuen Tab. Es kann zu längere Ladezeit kommen.
 			</div>
 		</div>
 		<div class="info-item">
@@ -71,8 +71,7 @@
 				<ol>
 					<li>Lade die zip-Datei herunter und entpacke den Spielordner.</li>
 					<li>Installiere den <a href="https://codewith.mu/" class="underline" target="_blank" style="pointer-events: auto;"> MU Editor <ArrowUpRight /></a></li>
-					<li>Klicke "load" und wähle die .py Datei im Spielordner aus.</li>
-					<li>Klicke "run".</li>
+					<li>Lade die .py-Datei in den Editor und klicke auf "run".</li>
 				</ol>
 			</div>
 		</div>
@@ -142,7 +141,7 @@
 	}
 
 	.info-box {
-		flex: 0 0 320px;
+		flex: 0 0 350px;
 		display: flex;
 		flex-direction: column;
 		gap: 1.2em;
