@@ -45,12 +45,11 @@
 		<p>
 			In diesem Projekt programmieren die Schülerinnen und Schüler zunächst einen klassischen Spaceshooter mithilfe der Python-Bibliothek
 			"<a href="https://pygame-zero.readthedocs.io/en/stable/" class="underline" style="pointer-events: auto;">Pygame Zero</a>".
-			Anschließend setzen sie eigene Spielideen um. Dabei lernen sie zentrale Konzepte der Programmierung mit Python kennen – unter anderem:</p>
+			Anschließend setzen sie eigene Spielideen um. Dabei erweitern die Schülerinnen und Schüler ihre Kompetenzen in der Programmierung mit Python, unter anderem:</p>
 			<ul>
-				<li>den Umgang mit <strong>Objekten</strong> wie "Actor" und "Screen"</li>
-				<li>den Unterschied zwischen <strong>globalen</strong> und <strong>lokalen Variablen</strong></li>
-				<li>den Einsatz von <strong>if-Bedingungen</strong> für einfache Entscheidungslogik</li>
-				<li>das <strong>Definieren und Aufrufen von Funktionen</strong></li>
+				<li><strong>Objektorientierte Programmierung</strong> am Beispiel von Objekten wie "Actor" und "Screen", sowie eigenen erstellten Klassen</li>
+				<li>die Unterscheidung von <strong>globalen</strong> und <strong>lokalen Variablen</strong></li>
+				<li>das <strong>Definieren und Aufrufen von Funktionen</strong> wird vertieft zur Modularisierung eingesetzt</li>
 				<li>das Verwenden von <strong> Listen und for-Schleifen</strong></li>
 			</ul>
 
