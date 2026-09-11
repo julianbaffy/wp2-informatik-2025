@@ -2,8 +2,13 @@
 	import Header from './Header.svelte';
 	import '../app.css';
 	import { page } from '$app/state';
+	import { afterNavigate } from '$app/navigation';
 	import type { Page } from '@sveltejs/kit';
 	import GenerateClickables from '$lib/Components/Clickables/generateClickables.svelte';
+
+	afterNavigate(() => {
+		window.scrollTo(0, 0);
+	});
 
 	// Definiere die möglichen Titel basierend auf dem Pfad
     const titles: Record<string, string> = {
