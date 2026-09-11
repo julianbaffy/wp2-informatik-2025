@@ -39,8 +39,7 @@ To add a new, empty course, you have to save any file in it (e. g. just 'empty.h
   static/pygames/[courseID]\_[teacherName]/[studentName]\_[studentSurname]/...
   ```
   - `courseID` must be a number
-  - Each student’s directory must contain a file named `download.zip`. </br>
-  This file will be linked as download file in the grid.
+  - Each student’s directory must contain a file named `download.zip` or a repository named `web`. `download.zip` will be linked on the download-button in gamgrid, the `web` will be linked on the `play online` button and be opened in a new tab. </br>
 
 2. Deploy by pushing the commit to GitHub (the site will be automatically deployed via Vercel). Locally run `npm run dev`.
 
