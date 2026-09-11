@@ -98,7 +98,16 @@ async function generateGameLinks() {
       const title = studentDir.replace(/_/g, " ").replace(/\b(\w)/g, c => c.toUpperCase());
       const downloadUrl = `/pygames/${courseFolder}/${studentDir}/download.zip`;
 
-      games.push({ courseID, teacher, title, downloadUrl });
+      let onlineUrl = null;
+      const webIndexFile = path.join(studentPath, "web", "index.html");
+      try {
+        const statWebIndex = await stat(webIndexFile);
+        if (statWebIndex.isFile()) {
+          onlineUrl = `/pygames/${courseFolder}/${studentDir}/web/index.html`;
+        }
+      } catch {}
+
+      games.push({ courseID, teacher, title, downloadUrl, onlineUrl });
     }
   }
 
