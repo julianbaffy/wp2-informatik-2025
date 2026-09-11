@@ -14,7 +14,11 @@
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"admin:hash-password": "node scripts/hash-password.js"
+	},
+	"dependencies": {
+		"@upstash/redis": "^1.38.4"
 	},
 	"devDependencies": {
 		"@fontsource/fira-mono": "^5.3.0",
