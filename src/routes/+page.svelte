@@ -80,6 +80,7 @@
 	}
 
 	.image-container {
+		max-width: 250px;
 		flex: 1 1 30%;
 	}
 
