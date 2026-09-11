@@ -102,7 +102,7 @@
     <div class="tab-controls sticky top-14 w-full h-auto relative z-20">
 		<div class="tab-buttons-inner w-full h-auto flex pb-4">
 			{#each courses as course}
-				<div class="button-container w-full text-center py-4 border-gray-400 {currentPosition === course.courseID ? 'border-x border-t rounded-t-[8px] bg-gradient-to-b from-white to-transparent' : 'border-b-1 hover:bg-gradient-to-t hover:from-white hover:to-transparent'} transition-opacity duration-200">
+				<div class="button-container w-full text-center py-4 border-gray-400 z-15 {currentPosition === course.courseID ? 'border-x border-t rounded-t-[8px] bg-gradient-to-b from-white to-transparent' : 'border-b-1 hover:bg-gradient-to-t hover:from-white hover:to-transparent'} transition-opacity duration-200">
 					<GameTabsControls courseID={course.courseID} courseTeacher={course.teacher} isActive={currentPosition === course.courseID} smallButtons={smallButtons} openTab={openTab} />
 				</div>
 			{/each}
@@ -122,20 +122,19 @@
 	content: "";
 	position: absolute;
 	top: 0;
-    left: 0;
-    right: 0;
+    left: -4em;
+    right: -4em;
     height: 5em;
 	backdrop-filter: blur(50px);
 	-webkit-backdrop-filter: blur(50px);
 	mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
 	-webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
 	pointer-events: none;
-	z-index: -1;
+	z-index: 0;
 }
 
     .tab-controls{
         pointer-events: auto;
-        isolation: isolate;
     }
 
     .tab-buttons-inner{
@@ -158,7 +157,6 @@
 
 .tab-container{
     pointer-events: none;
-    overflow-x: clip;
 }
 
 </style>
