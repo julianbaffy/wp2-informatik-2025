@@ -125,8 +125,8 @@
     left: -4em;
     right: -4em;
     height: 5em;
-	backdrop-filter: blur(50px);
 	-webkit-backdrop-filter: blur(50px);
+    backdrop-filter: blur(50px);
 	mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
 	-webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
 	pointer-events: none;
