@@ -122,8 +122,8 @@
 	content: "";
 	position: absolute;
 	top: 0;
-    left: -4em;
-    right: -4em;
+    left: 0;
+    right: 0;
     height: 5em;
 	backdrop-filter: blur(50px);
 	-webkit-backdrop-filter: blur(50px);
@@ -135,6 +135,7 @@
 
     .tab-controls{
         pointer-events: auto;
+        isolation: isolate;
     }
 
     .tab-buttons-inner{
@@ -157,6 +158,7 @@
 
 .tab-container{
     pointer-events: none;
+    overflow-x: clip;
 }
 
 </style>
