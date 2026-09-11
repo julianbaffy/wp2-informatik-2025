@@ -2,6 +2,7 @@
 	import { onMount } from "svelte";
 	import Spaceshooter from '$lib/images/Spaceshooter.jpg';
 	import DeviceMockups from "$lib/Components/Websites/DeviceMockups.svelte";
+	import GenerateClickables from '$lib/Components/Clickables/generateClickables.svelte';
 
 	let width = $state(0);
 
@@ -63,6 +64,9 @@
 	</div>
 	<div class="image-container">
 		<img src={Spaceshooter} alt="Screenshot of Spaceshooter Game">
+	</div>
+	<div class="absolute top-0 left-0 w-full h-full overflow-hidden" style="z-index: -1;">
+   	 	<GenerateClickables density={1.5}/>
 	</div>
 </div>
 

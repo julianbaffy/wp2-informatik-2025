@@ -6,6 +6,9 @@
 
     type ClickableType = "rock" | "heart" | "explosion";
 
+    // Skaliert Anzahl und vertikalen Abstand der Clickables (1 = Standard)
+    let {density=1} : {density?: number} = $props();
+
     let canvasElement: HTMLCanvasElement;
     let containerElement: HTMLDivElement;
     let context: CanvasRenderingContext2D;
@@ -46,14 +49,15 @@
         types.length = 0;
         opacities.length = 0;
 
-        const count = Math.floor(height / 250) + 1;
+        const count = Math.floor((height / 250) * density) + 1;
+        const spacing = 300 / density;
         const maxDelay = Math.min(height * 6 + width * 5, 14000);
 
         for (let index = 0; index < count; index++) {
             const size = 25 + Math.random() * 25;
             const yOffset = Math.random() * 200 - 100;
             x.push(width + size + 200);
-            y.push(Math.max(0, Math.min((index + 1) * 300 - 200 + yOffset, height - size)));
+            y.push(Math.max(0, Math.min((index + 1) * spacing - 200 + yOffset, height - size)));
             speeds.push(60 + Math.random() * 40);
             sizes.push(size);
             const delayFactor = (index + 1) / count;
