@@ -56,7 +56,8 @@
             y.push(Math.max(0, Math.min((index + 1) * 300 - 200 + yOffset, height - size)));
             speeds.push(60 + Math.random() * 40);
             sizes.push(size);
-            delays.push(Math.random() * maxDelay);
+            const delayFactor = (index + 1) / count;
+            delays.push(Math.random() * maxDelay * delayFactor);
             types.push(Math.random() < 0.25 ? "heart" : "rock");
             opacities.push(1);
         }
@@ -87,7 +88,7 @@
 
             if (x[index] < -sizes[index] - 200) {
                 x[index] = width + sizes[index] + 200;
-                delays[index] = 3000 + Math.random() * 3000;
+                delays[index] = 2000 + Math.random() * 2000;
                 types[index] = Math.random() < 0.25 ? "heart" : "rock";
                 opacities[index] = 1;
             }
