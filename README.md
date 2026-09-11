@@ -73,7 +73,7 @@ They save the different courses, in which each project has been carried out.
   ...
 ]
 ```
-The onlineUrl is not set yet since we did not work out, how to run Pygame Zero with pygbag.
+
 
 3. `/src/lib/generated/websites/links.json`, which looks like this:
 ```json
