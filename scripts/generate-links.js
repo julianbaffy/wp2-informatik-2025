@@ -10,6 +10,20 @@ const pygamesBase = path.join(__dirname, "..", "static", "pygames");
 const websitesOutputDir = path.join(__dirname, "..", "src", "lib", "generated", "websites");
 const gamesOutputDir = path.join(__dirname, "..", "src", "lib", "generated", "games");
 
+const thumbnailNames = ["thumbnail.png", "thumbnail.jpg", "thumbnail.jpeg"];
+
+async function findThumbnailUrl(studentPath, urlPrefix) {
+  for (const name of thumbnailNames) {
+    try {
+      const statThumbnail = await stat(path.join(studentPath, name));
+      if (statThumbnail.isFile()) {
+        return `${urlPrefix}/${name}`;
+      }
+    } catch {}
+  }
+  return undefined;
+}
+
 async function generateStudentPagesLinks() {
   const courseDirs = await readdir(studentpagesBase);
   const links = [];
@@ -53,9 +67,10 @@ async function generateStudentPagesLinks() {
 
       const title = studentDir.replace(/_/g, " ").replace(/\b(\w)/g, c => c.toUpperCase());
       const url = `studentpages/${courseFolder}/${studentDir}/${foundIndex}`;
+      const thumbnailUrl = await findThumbnailUrl(studentPath, `studentpages/${courseFolder}/${studentDir}`);
       // Stabile ID, unabhängig von URL/Dateiname – wird u. a. für die Like-Zähler verwendet.
       const id = `${courseFolder}/${studentDir}`;
-      links.push({ id, courseID, teacher, title, url });
+      links.push({ id, courseID, teacher, title, url, thumbnailUrl });
     }
   }
 
@@ -109,10 +124,12 @@ async function generateGameLinks() {
         }
       } catch {}
 
+      const thumbnailUrl = await findThumbnailUrl(studentPath, `/pygames/${courseFolder}/${studentDir}`);
+
       // Stabile ID, unabhängig davon ob/welche URL-Variante vorhanden ist –
       // wird u. a. für die Like-Zähler verwendet.
       const id = `${courseFolder}/${studentDir}`;
-      games.push({ id, courseID, teacher, title, downloadUrl, onlineUrl });
+      games.push({ id, courseID, teacher, title, downloadUrl, onlineUrl, thumbnailUrl });
     }
   }
 

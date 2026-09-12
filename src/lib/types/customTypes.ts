@@ -10,6 +10,7 @@ export type WebsiteLink = {
 	url: string;
 	description?: string;
 	teacher?: string;
+	thumbnailUrl?: string;
 };
 
 export type GameLink = {
@@ -20,4 +21,5 @@ export type GameLink = {
 	onlineUrl?: string; 
 	description?: string;
 	teacher?: string;
+	thumbnailUrl?: string;
 }
