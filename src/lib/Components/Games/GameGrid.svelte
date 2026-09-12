@@ -1,8 +1,6 @@
  <script lang="ts">
-    import ArrowToIcon from "$lib/images/ArrowToIcon.svelte";
     import type { GameLink } from "$lib/types/customTypes";
     import Download1 from "$lib/images/download1.svelte";
-    import Download2 from "$lib/images/download2.svelte";
     import OnlineGaming from "$lib/images/online-gaming.svelte";
     import LikeButton from "./LikeButton.svelte";
 
