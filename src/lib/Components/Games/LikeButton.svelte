@@ -5,10 +5,17 @@
 	let { id, courseID }: { id: string; courseID: string } = $props();
 
 	let pending = $state(false);
+	let popping = $state(false);
 
 	async function handleClick() {
 		if (pending) return;
 		pending = true;
+
+		popping = false;
+		// Neu triggern, falls die vorherige Animation noch läuft
+		requestAnimationFrame(() => (popping = true));
+		setTimeout(() => (popping = false), 400);
+
 		await toggleLike(id, courseID);
 		pending = false;
 	}
@@ -22,7 +29,7 @@
 	aria-pressed={likeInfo(id).voted}
 	title={likeInfo(id).voted ? 'Gefällt mir entfernen' : 'Gefällt mir'}
 >
-	<span class="icon"><HeartIcon filled={likeInfo(id).voted} /></span>
+	<span class="icon" class:pop={popping}><HeartIcon filled={likeInfo(id).voted} /></span>
 	<span class="count">{likeInfo(id).count}</span>
 </button>
 
@@ -32,13 +39,11 @@
 		align-items: center;
 		gap: 0.35em;
 		padding: 0.25em 0.6em;
-		border-radius: 999px;
-		border: 1px solid rgba(0, 0, 0, 0.15);
-		background: rgba(255, 255, 255, 0.5);
 		cursor: pointer;
-		font-size: 0.9em;
+		font-size: 1em;
 		line-height: 1;
-		color: #888;
+		font-weight: 600;
+		color: #333;
 		transition: color 0.15s ease, border-color 0.15s ease;
 	}
 
@@ -47,15 +52,39 @@
 		opacity: 0.75;
 	}
 
-	.heart-button.voted {
+	.heart-button.voted .icon :global(svg) {
 		color: #e0324c;
-		border-color: rgba(224, 50, 76, 0.35);
+	}
+
+	.heart-button.voted .count{
+		color: #333;
 	}
 
 	.icon {
 		display: inline-flex;
-		width: 1.1em;
-		height: 1.1em;
+		width: 1.5em;
+		height: 1.5em;
+		transition: transform 0.15s ease;
+	}
+
+	.heart-button:hover .icon {
+		transform: scale(1.075);
+	}
+
+	.icon.pop {
+		animation: heart-pop 0.4s ease;
+	}
+
+	@keyframes heart-pop {
+		0% {
+			transform: scale(1);
+		}
+		40% {
+			transform: scale(1.25);
+		}
+		100% {
+			transform: scale(1.1);
+		}
 	}
 
 	.icon :global(svg) {
