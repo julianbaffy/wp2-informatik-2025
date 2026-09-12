@@ -1,5 +1,6 @@
 [
   {
+    "id": "1_BAF/Test2_S.",
     "courseID": "1",
     "teacher": "BAF",
     "title": "Test2 S.",
@@ -7,6 +8,7 @@
     "onlineUrl": null
   },
   {
+    "id": "1_BAF/Test3_S.",
     "courseID": "1",
     "teacher": "BAF",
     "title": "Test3 S.",
@@ -14,6 +16,7 @@
     "onlineUrl": null
   },
   {
+    "id": "1_BAF/Test4_S. copy 2",
     "courseID": "1",
     "teacher": "BAF",
     "title": "Test4 S. Copy 2",
@@ -21,6 +24,7 @@
     "onlineUrl": null
   },
   {
+    "id": "1_BAF/Test5_S.",
     "courseID": "1",
     "teacher": "BAF",
     "title": "Test5 S.",
@@ -28,6 +32,7 @@
     "onlineUrl": null
   },
   {
+    "id": "1_BAF/Test6_S.",
     "courseID": "1",
     "teacher": "BAF",
     "title": "Test6 S.",
@@ -35,6 +40,7 @@
     "onlineUrl": null
   },
   {
+    "id": "1_BAF/Test_S.",
     "courseID": "1",
     "teacher": "BAF",
     "title": "Test S.",

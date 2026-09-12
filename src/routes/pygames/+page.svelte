@@ -5,10 +5,13 @@
 	import Online from "$lib/images/online-gaming.svelte";
 	import Download1 from "$lib/images/download1.svelte";
 	import ArrowUpRight from "$lib/images/ArrowUpRight.svelte";
+	import { useLikePolling } from "$lib/stores/likes.svelte";
 	
 	let { data } : {data: { links: GameLink[], courses: Course[];}} = $props();
 
 	let manualStartPosition = 'auto'; //set 'auto' for default behavior or any courseID to be opened when loading the page.
+
+	useLikePolling();
 
 	let width = $state(0);
 

@@ -53,7 +53,9 @@ async function generateStudentPagesLinks() {
 
       const title = studentDir.replace(/_/g, " ").replace(/\b(\w)/g, c => c.toUpperCase());
       const url = `studentpages/${courseFolder}/${studentDir}/${foundIndex}`;
-      links.push({ courseID, teacher, title, url });
+      // Stabile ID, unabhängig von URL/Dateiname – wird u. a. für die Like-Zähler verwendet.
+      const id = `${courseFolder}/${studentDir}`;
+      links.push({ id, courseID, teacher, title, url });
     }
   }
 
@@ -107,7 +109,10 @@ async function generateGameLinks() {
         }
       } catch {}
 
-      games.push({ courseID, teacher, title, downloadUrl, onlineUrl });
+      // Stabile ID, unabhängig davon ob/welche URL-Variante vorhanden ist –
+      // wird u. a. für die Like-Zähler verwendet.
+      const id = `${courseFolder}/${studentDir}`;
+      games.push({ id, courseID, teacher, title, downloadUrl, onlineUrl });
     }
   }
 

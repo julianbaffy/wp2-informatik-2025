@@ -1,35 +1,41 @@
 [
   {
+    "id": "1_BAF/Filip_D",
     "courseID": "1",
     "teacher": "BAF",
     "title": "Filip D",
     "url": "studentpages/1_BAF/Filip_D/index.html"
   },
   {
+    "id": "1_BAF/Junis_D",
     "courseID": "1",
     "teacher": "BAF",
     "title": "Junis D",
     "url": "studentpages/1_BAF/Junis_D/index.html"
   },
   {
+    "id": "1_BAF/Kian_K",
     "courseID": "1",
     "teacher": "BAF",
     "title": "Kian K",
     "url": "studentpages/1_BAF/Kian_K/index.html"
   },
   {
+    "id": "1_BAF/Lea_J",
     "courseID": "1",
     "teacher": "BAF",
     "title": "Lea J",
     "url": "studentpages/1_BAF/Lea_J/index.html"
   },
   {
+    "id": "1_BAF/Roman_H",
     "courseID": "1",
     "teacher": "BAF",
     "title": "Roman H",
     "url": "studentpages/1_BAF/Roman_H/index.html"
   },
   {
+    "id": "1_BAF/Sophia_H",
     "courseID": "1",
     "teacher": "BAF",
     "title": "Sophia H",

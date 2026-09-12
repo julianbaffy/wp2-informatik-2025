@@ -4,6 +4,7 @@
     import Download1 from "$lib/images/download1.svelte";
     import Download2 from "$lib/images/download2.svelte";
     import OnlineGaming from "$lib/images/online-gaming.svelte";
+    import LikeButton from "./LikeButton.svelte";
 
   let {courseID = "1", links} : {courseID: string, links: GameLink[]} = $props()
   // Filtere die Links basierend auf der übergebenen CourseID
@@ -72,6 +73,10 @@
   .link-button.active {
     border-width: 1.2px;
   }
+
+  .like-row {
+    margin-top: 0.6em;
+  }
 </style>
 
 <div class="grid-container">
@@ -103,6 +108,10 @@
             {:else}
               <button class="link-button inactive"><span class="icon-wrapper"><Download1 /></span></button>
             {/if}
+          </div>
+
+          <div class="like-row">
+            <LikeButton id={link.id} courseID={link.courseID} />
           </div>
 
         </div>

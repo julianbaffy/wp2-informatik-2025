@@ -4,6 +4,7 @@ export type Course = {
 };
 
 export type WebsiteLink = {
+	id: string;
 	courseID: string;
 	title: string;
 	url: string;
@@ -12,6 +13,7 @@ export type WebsiteLink = {
 };
 
 export type GameLink = {
+	id: string;
 	courseID: string;
 	title: string;
 	downloadUrl?: string;
