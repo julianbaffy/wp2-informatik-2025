@@ -33,18 +33,34 @@ export function likeInfo(id: string): LikeInfo {
 	return data[id] ?? { count: 0, voted: false };
 }
 
-/** Registriert einen Like-Klick und aktualisiert den lokalen Stand sofort. */
-export async function vote(id: string, courseID: string): Promise<void> {
+/**
+ * Schaltet den Like einer Seite um. Die Änderung wird sofort clientseitig
+ * angezeigt (optimistic update); schlägt der Request fehl, wird der vorige
+ * Stand wiederhergestellt.
+ */
+export async function toggleLike(id: string, courseID: string): Promise<void> {
+	const previous = likeInfo(id);
+	const optimistic: LikeInfo = previous.voted
+		? { count: Math.max(0, previous.count - 1), voted: false }
+		: { count: previous.count + 1, voted: true };
+
+	data = { ...data, [id]: optimistic };
+
 	try {
 		const res = await fetch('/api/likes', {
 			method: 'POST',
 			headers: { 'content-type': 'application/json' },
 			body: JSON.stringify({ id, courseID })
 		});
-		if (!res.ok) return;
+
+		if (!res.ok) {
+			data = { ...data, [id]: previous };
+			return;
+		}
+
 		const result = (await res.json()) as LikeInfo;
 		data = { ...data, [id]: result };
 	} catch {
-		// Netzwerkfehler: der nächste periodische Poll gleicht wieder ab.
+		data = { ...data, [id]: previous };
 	}
 }

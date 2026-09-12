@@ -43,28 +43,40 @@ export async function getLikeInfoForIds(
 }
 
 /**
- * Registriert einen Like-Klick. Atomar über SET...NX: nur wer den
- * "voted"-Key als Erste*r setzen kann, erhöht den Zähler. So kann ein
- * Doppelklick oder ein zweiter, zeitgleicher Request nicht doppelt zählen.
+ * Schaltet den Like für eine Seite um: noch nicht abgestimmt -> Like setzen
+ * (+1), schon abgestimmt -> Like entfernen (-1). Der Check "schon
+ * abgestimmt?" und die anschließende Schreiboperation laufen nicht in
+ * einer einzigen atomaren Transaktion (Upstash REST hat dafür keine
+ * einfache Lösung ohne Lua-Skript) – bei einem manuellen Button-Klick
+ * mit clientseitiger Sperre während der Anfrage ist das Risiko einer
+ * echten Kollision aber vernachlässigbar.
  */
-export async function registerVote(
+export async function toggleVote(
 	id: string,
 	courseID: string,
 	voterId: string
 ): Promise<LikeInfo> {
 	const epoch = Number((await redis.get<number>(epochKey(id))) ?? 0);
 	const key = votedKey(id, epoch, voterId);
+	const alreadyVoted = await redis.get(key);
 
-	const firstTime = await redis.set(key, '1', { nx: true });
+	const pipeline = redis.pipeline();
 
-	if (firstTime) {
-		await redis.sadd(coursePagesKey(courseID), id);
-		const newCount = await redis.incr(countKey(id));
-		return { count: newCount, voted: true };
+	if (alreadyVoted !== null) {
+		// Like entfernen
+		pipeline.del(key);
+		pipeline.decr(countKey(id));
+		const results = await pipeline.exec<[number, number]>();
+		const newCount = Math.max(0, results[1]);
+		return { count: newCount, voted: false };
 	}
 
-	const count = Number((await redis.get<number>(countKey(id))) ?? 0);
-	return { count, voted: true };
+	// Like setzen
+	pipeline.set(key, '1');
+	pipeline.incr(countKey(id));
+	pipeline.sadd(coursePagesKey(courseID), id);
+	const results = await pipeline.exec<['OK', number, number]>();
+	return { count: results[1], voted: true };
 }
 
 /** Stellt sicher, dass alle IDs eines Kurses in dessen Redis-Set enthalten sind. */

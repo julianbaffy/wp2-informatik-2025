@@ -1,14 +1,15 @@
 <script lang="ts">
-	import { likeInfo, vote } from '$lib/stores/likes.svelte';
+	import HeartIcon from '$lib/images/HeartIcon.svelte';
+	import { likeInfo, toggleLike } from '$lib/stores/likes.svelte';
 
 	let { id, courseID }: { id: string; courseID: string } = $props();
 
 	let pending = $state(false);
 
 	async function handleClick() {
-		if (pending || likeInfo(id).voted) return;
+		if (pending) return;
 		pending = true;
-		await vote(id, courseID);
+		await toggleLike(id, courseID);
 		pending = false;
 	}
 </script>
@@ -16,15 +17,12 @@
 <button
 	class="heart-button"
 	class:voted={likeInfo(id).voted}
-	disabled={pending || likeInfo(id).voted}
+	disabled={pending}
 	onclick={handleClick}
 	aria-pressed={likeInfo(id).voted}
-	title={likeInfo(id).voted ? 'Danke für dein Feedback!' : 'Gefällt mir'}
+	title={likeInfo(id).voted ? 'Gefällt mir entfernen' : 'Gefällt mir'}
 >
-	<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="heart-icon">
-		<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-	</svg>
-
+	<span class="icon"><HeartIcon filled={likeInfo(id).voted} /></span>
 	<span class="count">{likeInfo(id).count}</span>
 </button>
 
@@ -40,22 +38,29 @@
 		cursor: pointer;
 		font-size: 0.9em;
 		line-height: 1;
+		color: #888;
+		transition: color 0.15s ease, border-color 0.15s ease;
 	}
 
 	.heart-button:disabled {
 		cursor: default;
+		opacity: 0.75;
 	}
 
-	.heart-icon {
+	.heart-button.voted {
+		color: #e0324c;
+		border-color: rgba(224, 50, 76, 0.35);
+	}
+
+	.icon {
+		display: inline-flex;
 		width: 1.1em;
 		height: 1.1em;
-		filter: grayscale(1) opacity(0.5);
-		transition: filter 0.15s ease;
 	}
 
-	.heart-button.voted .heart-icon,
-	.heart-button:not(:disabled):hover .heart-icon {
-		filter: none;
+	.icon :global(svg) {
+		width: 100%;
+		height: 100%;
 	}
 
 	.count {

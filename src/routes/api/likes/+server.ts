@@ -1,6 +1,6 @@
 import { json, error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { getLikeInfoForIds, registerVote } from '$lib/server/likes.server';
+import { getLikeInfoForIds, toggleVote } from '$lib/server/likes.server';
 import { getOrCreateVoterId } from '$lib/server/voter.server';
 import gameLinksData from '$lib/generated/games/games.json';
 import websiteLinksData from '$lib/generated/websites/links.json';
@@ -21,7 +21,7 @@ export const GET: RequestHandler = async ({ cookies }) => {
 	return json(result);
 };
 
-/** Registriert einen Like-Klick für eine einzelne Seite. */
+/** Schaltet den Like für eine einzelne Seite um (setzen oder entfernen). */
 export const POST: RequestHandler = async ({ request, cookies }) => {
 	const voterId = getOrCreateVoterId(cookies);
 	const body = await request.json().catch(() => null);
@@ -34,6 +34,6 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		error(404, 'Unbekannte Seite');
 	}
 
-	const result = await registerVote(body.id, body.courseID, voterId);
+	const result = await toggleVote(body.id, body.courseID, voterId);
 	return json(result);
 };
