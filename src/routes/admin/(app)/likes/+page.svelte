@@ -4,8 +4,12 @@
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
 
-	function confirmReset(event: Event, courseID: string) {
-		if (!confirm(`Wirklich alle Likes für Kurs ${courseID} zurücksetzen? Das kann nicht rückgängig gemacht werden.`)) {
+	function confirmReset(event: Event, courseID: string, label: string) {
+		if (
+			!confirm(
+				`Wirklich alle Likes für "${label}" in Kurs ${courseID} zurücksetzen? Das kann nicht rückgängig gemacht werden.`
+			)
+		) {
 			event.preventDefault();
 		}
 	}
@@ -20,24 +24,29 @@
 <h1>Like-Verwaltung</h1>
 
 {#if form?.success}
-	<p class="notice">Kurs {form.resetCourseID} wurde zurückgesetzt.</p>
+	<p class="notice">
+		{form.resetType === 'games' ? 'Spiele' : 'Websites'} in Kurs {form.resetCourseID} wurden zurückgesetzt.
+	</p>
 {/if}
 
 {#each data.courses as course}
 	<section class="course">
-		<div class="course-header">
-			<h2>Kurs {course.courseID} ({course.teacher})</h2>
-			<form method="POST" action="?/resetCourse" use:enhance>
-				<input type="hidden" name="courseID" value={course.courseID} />
-				<button type="submit" onclick={(e) => confirmReset(e, course.courseID)}>
-					Kurs zurücksetzen
-				</button>
-			</form>
-		</div>
+		<h2>Kurs {course.courseID} ({course.teacher})</h2>
 
-		{#if course.games.length === 0}
-			<p class="empty">Keine Spiele in diesem Kurs.</p>
-		{:else}
+		{#if course.games.length === 0 && course.websites.length === 0}
+			<p class="empty">Keine Projekte in diesem Kurs.</p>
+		{/if}
+
+		{#if course.games.length > 0}
+			<div class="section-header">
+				<h3>Spiele</h3>
+				<form method="POST" action="?/resetGames" use:enhance>
+					<input type="hidden" name="courseID" value={course.courseID} />
+					<button type="submit" onclick={(e) => confirmReset(e, course.courseID, 'Spiele')}>
+						Spiele zurücksetzen
+					</button>
+				</form>
+			</div>
 			<table>
 				<thead>
 					<tr>
@@ -55,6 +64,34 @@
 				</tbody>
 			</table>
 		{/if}
+
+		{#if course.websites.length > 0}
+			<div class="section-header">
+				<h3>Websites</h3>
+				<form method="POST" action="?/resetWebsites" use:enhance>
+					<input type="hidden" name="courseID" value={course.courseID} />
+					<button type="submit" onclick={(e) => confirmReset(e, course.courseID, 'Websites')}>
+						Websites zurücksetzen
+					</button>
+				</form>
+			</div>
+			<table>
+				<thead>
+					<tr>
+						<th>Titel</th>
+						<th>❤️</th>
+					</tr>
+				</thead>
+				<tbody>
+					{#each course.websites as website}
+						<tr>
+							<td>{website.title}</td>
+							<td>{website.count}</td>
+						</tr>
+					{/each}
+				</tbody>
+			</table>
+		{/if}
 	</section>
 {/each}
 
@@ -63,18 +100,25 @@
 		margin-bottom: 2rem;
 	}
 
-	.course-header {
+	.section-header {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		gap: 1rem;
 		flex-wrap: wrap;
+		margin-top: 1rem;
+	}
+
+	.section-header h3 {
+		margin: 0;
+		font-size: 1em;
+		color: #555;
 	}
 
 	table {
 		width: 100%;
 		border-collapse: collapse;
-		margin-top: 0.5rem;
+		margin-top: 0.3rem;
 	}
 
 	th,

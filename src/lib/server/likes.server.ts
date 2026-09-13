@@ -95,11 +95,13 @@ export async function getCounts(ids: string[]): Promise<Record<string, number>> 
 }
 
 /**
- * Setzt alle Zähler eines Kurses zurück und erlaubt allen Nutzer*innen
- * wieder eine neue Abstimmung (durch Erhöhen der Epoche pro Seite).
+ * Setzt die Zähler der übergebenen IDs zurück und erlaubt allen
+ * Nutzer*innen wieder eine neue Abstimmung (durch Erhöhen der Epoche pro
+ * Seite). Die IDs werden vom Aufrufer übergeben (z. B. nur die Spiele
+ * oder nur die Websites eines Kurses), damit beide Projekttypen
+ * unabhängig voneinander zurückgesetzt werden können.
  */
-export async function resetCourse(courseID: string): Promise<void> {
-	const ids = await redis.smembers(coursePagesKey(courseID));
+export async function resetPages(ids: string[]): Promise<void> {
 	if (ids.length === 0) return;
 
 	const pipeline = redis.pipeline();
