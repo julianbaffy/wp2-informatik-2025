@@ -189,6 +189,13 @@
   /* Touch-Geräte haben kein zuverlässiges :hover -> Karte gleich
      komplett anzeigen, statt Infos hinter einer Geste zu verstecken. */
   @media (hover: none), (pointer: coarse) {
+    .card-slot:hover,
+    .card-slot:focus-within {
+      /* Ohne Zoom-Effekt darf die Karte hier nicht über
+         andere UI-Elemente (z. B. Tab-Controls) ragen. */
+      z-index: 1;
+    }
+
     .card {
       position: static;
       transform: none !important;
