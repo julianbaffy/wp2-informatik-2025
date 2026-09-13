@@ -1,7 +1,9 @@
  <script lang="ts">
   import ArrowToIcon from "$lib/images/ArrowToIcon.svelte";
+	import LikeButton from "../LikeButton.svelte";
 	import type { WebsiteLink } from "$lib/types/customTypes";
-	
+	import DeviceMockups from "./DeviceMockups.svelte";
+
   let {courseID = "1", links} : {courseID: string, links: WebsiteLink[]} = $props()
 
   // Filtere die Links basierend auf der übergebenen CourseID
@@ -13,78 +15,242 @@
 <style>
   .grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.25em;
-    padding: 1.25em;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5em;
+    padding: 1.5em;
+    /* Wichtig: NICHT overflow:hidden setzen, sonst wird die
+       herauszoomende Karte am Rand abgeschnitten. */
   }
 
-  a {
-    text-decoration: none;
+  .empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3em 1em;
+    color: #444;
   }
 
-  a:hover {
-	text-decoration: underline;
+  /* Der Slot reserviert im Grid nur den Platz für das Thumbnail
+     (16:9). Die eigentliche Karte liegt absolut darüber, damit sie
+     beim Aufklappen/Zoomen über Nachbar-Kacheln ragen kann, ohne
+     das Grid-Layout zu verschieben. */
+  .card-slot {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    z-index: 1;
   }
 
-  .tile-group {
-    transition: transform 0.2s ease;
+  .card-slot:hover,
+  .card-slot:focus-within {
+    /* über die Nachbarkarten heben, während gehovert/fokussiert wird */
+    z-index: 30;
   }
 
-  .tile-group:hover {
-    transform: translateY(-0.3em);
-  }
-
-  .tile {
-    background-color: rgba(255, 255, 255, 0.4); /* statt opacity */
+  .card {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    /* bewusst kein "bottom" -> Höhe ergibt sich aus dem Inhalt,
+       damit die Karte beim Aufklappen nach unten wachsen kann */
     display: flex;
     flex-direction: column;
+    pointer-events: auto;
+    background-color: rgba(255, 255, 255, 0.55);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 1em;
+    overflow: hidden;
+    box-shadow: 0 0.35em 1.2em rgba(0, 0, 0, 0.1);
+    transform-origin: 50% 50%;
+    transition: transform 0.28s cubic-bezier(0.25, 0.8, 0.25, 1),
+      box-shadow 0.28s ease;
+    will-change: transform;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  /* Deckt die ganze Karte klickbar ab, ohne dass die Karte selbst
+     ein <a> sein muss -> vermeidet verschachtelte Links mit dem
+     separaten "In neuem Tab öffnen"-Button. */
+  .card-link {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  .card-slot:hover .card,
+  .card-slot:focus-within .card {
+    transform: scale(1.25);
+    box-shadow: 0 1.5em 3em rgba(0, 0, 0, 0.35);
+  }
+
+  .thumb-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: #e5e5e5;
+    flex-shrink: 0;
+  }
+
+  .thumb-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .thumb-wrapper :global(.device-collection) {
+    position: absolute;
+    inset: 0;
+    padding: 0.6em;
+  }
+
+  /* Titel als Fallback direkt im Slot anzeigen, wenn kein Thumbnail existiert */
+  .thumb-title {
+    position: absolute;
+    inset: auto 0 0 0;
+    display: flex;
     align-items: center;
     justify-content: center;
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px); /* für Safari */
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 0.5em;
-    padding: 1.17em;
-    transition: box-shadow 0.2s ease;
-    box-shadow:
-    0.235em 0.235em 0.588em rgba(0, 0, 0, 0.1);  /* standard */
-    font-size: 17px;
+    padding: 0.6em 0.8em;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.1em;
+    color: #fff;
+    text-shadow: 0 0.1em 0.3em rgba(0, 0, 0, 0.4);
   }
 
-  .tile-group:hover .tile {
-    box-shadow: 0 0.471em 0.706em rgba(0, 0, 0, 0.15);
+  .arrow-button {
+    position: relative;
+    z-index: 2;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75em;
+    height: 1.75em;
+    border-radius: 0.6em;
+    color: #333;
+    transition: transform 0.15s ease;
   }
 
-  .tile h3 {
-    margin: 0.353em;
+  .arrow-button:hover {
+    transform: translateY(-0.1em);
   }
 
-  .tile p {
-    font-size: 0.9em;
-    color: #666;
+  /* Standardmäßig unsichtbar/eingeklappt -> "zunächst nur Thumbnail" */
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    max-height: 0;
+    opacity: 0;
+    padding: 0 1.2em;
+    overflow: hidden;
+    transition: max-height 0.32s ease, opacity 0.22s ease,
+      padding 0.32s ease;
+  }
+
+   .footer-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.3em;
+  }
+
+  .card-slot:hover .card-body,
+  .card-slot:focus-within .card-body {
+    max-height: 320px;
+    opacity: 1;
+    padding: 1em 1.2em 1.2em;
+    transition-delay: 0.05s;
+  }
+
+  .card-body h3 {
+    margin: 0 0 0.3em;
+    font-size: 1.15em;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .card-body p {
+    margin: 0;
+    font-size: 0.92em;
+    line-height: 1.4em;
+    color: var(--color-text);
+    /* Beschreibung kürzen, falls sehr lang */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Touch-Geräte haben kein zuverlässiges :hover -> Karte gleich
+     komplett anzeigen, statt Infos hinter einer Geste zu verstecken. */
+  @media (hover: none), (pointer: coarse) {
+    .card {
+      position: static;
+      transform: none !important;
+      box-shadow: 0 0.35em 1.2em rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .card-slot {
+      aspect-ratio: auto;
+    }
+
+    .card-body {
+      max-height: none;
+      opacity: 1;
+      padding: 1em 1.2em 1.2em;
+    }
   }
 </style>
 
 <div class="grid-container">
   {#if filteredLinks.length === 0}
-    <section>
-      <p class="websites text-center text-2xl mt-6">404 NOT FOUND</p>
-      <p class="text-center mt-4">Für diesen Kurs wurden noch keine Websites veröffentlicht.</p>
-    </section>
-
+    <div class="empty-state">
+      <p class="websites text-2xl">404 NOT FOUND</p>
+      <p>Für diesen Kurs wurden noch keine Websites veröffentlicht.</p>
+    </div>
   {:else}
     {#each filteredLinks as link}
-    <div class="relative tile-group">
-      <a href="{link.url}">
-        <div class="tile">
-          <h3>{link.title}</h3>
-          {#if link.description}
-            <p>{link.description}</p>
-          {/if}
+      <div class="card-slot">
+        <div class="card">
+          <a class="card-link" href={link.url} aria-label={link.title}></a>
+
+          <div class="thumb-wrapper">
+            {#if link.thumbnailUrl}
+              <img src={link.thumbnailUrl} alt={link.title} loading="lazy" />
+            {:else}
+              <DeviceMockups />
+              <span class="thumb-title">{link.title}</span>
+            {/if}
+          </div>
+
+          <div class="card-body">
+          <div class="flex justify-between items-center gap-[0.6em]">
+            <h3>{link.title}</h3>
+            <LikeButton id={link.id} courseID={link.courseID} />
+          </div>
+            {#if link.description}
+              <p>{link.description}</p>
+            {/if}
+
+            <div class="footer-row">
+              <a
+                class="arrow-button"
+                href={link.url}
+                target="_blank"
+                rel="noopener"
+                title="In neuem Tab öffnen"
+              >
+                <ArrowToIcon />
+              </a>
+            </div>
+          </div>
         </div>
-      </a>
-      <a href="{link.url}" target="_blank" class="absolute arrow-button top-2 right-2 opacity-50 hover:opacity-100"><ArrowToIcon/></a>
-    </div>
+      </div>
     {/each}
   {/if}
 </div>

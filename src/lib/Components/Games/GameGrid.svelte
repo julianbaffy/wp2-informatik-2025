@@ -2,7 +2,7 @@
     import type { GameLink } from "$lib/types/customTypes";
     import Download1 from "$lib/images/download1.svelte";
     import OnlineGaming from "$lib/images/online-gaming.svelte";
-    import LikeButton from "./LikeButton.svelte";
+    import LikeButton from "../LikeButton.svelte";
 
   let {courseID = "1", links} : {courseID: string, links: GameLink[]} = $props()
   // Filtere die Links basierend auf der übergebenen CourseID
@@ -70,8 +70,8 @@
     flex-direction: column;
     pointer-events: auto;
     background-color: rgba(255, 255, 255, 0.55);
-    backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.4);
     border-radius: 1em;
     overflow: hidden;
@@ -140,8 +140,11 @@
   }
 
   .card-body h3 {
+    flex: 1;
+    min-width: 0;
     font-size: 1.15em;
     font-weight: 700;
+    padding-right: 0.5em;
     color: var(--color-text);
   }
 
