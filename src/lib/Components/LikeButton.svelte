@@ -36,6 +36,9 @@
 <style>
 	.heart-button {
 		display: inline-flex;
+		position: relative;
+		z-index: 2;
+		flex-shrink: 0;
 		align-items: center;
 		gap: 0.35em;
 		padding: 0.25em 0.6em;

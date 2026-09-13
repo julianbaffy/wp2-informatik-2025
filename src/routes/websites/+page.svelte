@@ -3,10 +3,13 @@
 	import { onMount } from "svelte";
 	import type { Course, WebsiteLink } from "$lib/types/customTypes";
 	import meme from '$lib/images/modern_webdevelopement.png';
+	import { useLikePolling } from "$lib/stores/likes.svelte";
 	
 	let { data } : {data: { links: WebsiteLink[], courses: Course[];}} = $props();
 
 	let manualStartPosition = 'auto'; //set 'auto' for default behavior or any courseID to be opened when loading the page.
+
+	useLikePolling();
 
 	let width = $state(0);
 
