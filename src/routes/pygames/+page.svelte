@@ -65,7 +65,7 @@
 		<div class="info-item">
 			<span class="icon text-gray-200"><Online /></span>
 			<div class="explanation">
-				Direkt im Browser: das Spiel öffnet sich in einem neuen Tab. Es kann zu längere Ladezeit kommen.
+				Direkt im Browser: das Spiel öffnet sich in einem neuen Tab. Es kann zu längeren Ladezeiten kommen.
 			</div>
 		</div>
 		<div class="info-item">
