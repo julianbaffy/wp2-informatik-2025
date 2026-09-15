@@ -50,18 +50,20 @@
 				<div class="actions">
 					<form method="POST" action="?/toggleGamesHearts" use:enhance>
 						<input type="hidden" name="courseID" value={course.courseID} />
-						<button type="submit" class="btn btn-toggle" class:active={course.gamesHeartsVisible}>
-							{course.gamesHeartsVisible ? 'Likes ausblenden' : 'Likes anzeigen'}
+						<button type="submit" class="link-button dark toggle-btn">
+							<span class="button-text">
+								{course.gamesHeartsVisible ? 'Likes ausblenden' : 'Likes anzeigen'}
+							</span>
 						</button>
 					</form>
 					<form method="POST" action="?/resetGames" use:enhance>
 						<input type="hidden" name="courseID" value={course.courseID} />
 						<button
 							type="submit"
-							class="btn btn-reset"
+							class="link-button dark"
 							onclick={(e) => confirmReset(e, course.courseID, 'Spiele')}
 						>
-							Spiele zurücksetzen
+							<span class="button-text">Spiele zurücksetzen</span>
 						</button>
 					</form>
 				</div>
@@ -90,22 +92,20 @@
 				<div class="actions">
 					<form method="POST" action="?/toggleWebsitesHearts" use:enhance>
 						<input type="hidden" name="courseID" value={course.courseID} />
-						<button
-							type="submit"
-							class="btn btn-toggle"
-							class:active={course.websitesHeartsVisible}
-						>
-							{course.websitesHeartsVisible ? 'Likes ausblenden' : 'Likes anzeigen'}
+						<button type="submit" class="link-button dark toggle-btn">
+							<span class="button-text">
+								{course.websitesHeartsVisible ? 'Likes ausblenden' : 'Likes anzeigen'}
+							</span>
 						</button>
 					</form>
 					<form method="POST" action="?/resetWebsites" use:enhance>
 						<input type="hidden" name="courseID" value={course.courseID} />
 						<button
 							type="submit"
-							class="btn btn-reset"
+							class="link-button dark"
 							onclick={(e) => confirmReset(e, course.courseID, 'Websites')}
 						>
-							Websites zurücksetzen
+							<span class="button-text">Websites zurücksetzen</span>
 						</button>
 					</form>
 				</div>
@@ -172,58 +172,18 @@
 
 	.actions {
 		display: flex;
-		gap: 0.5rem;
+		align-items: center;
+		gap: 0.6rem;
 		flex-wrap: wrap;
 	}
 
-	/* Einheitlicher Grundstil für alle Aktions-Buttons, angelehnt an
-	   .link-button aus den Grid-Komponenten (gleiche Radien, Border-
-	   und Hover-Sprache wie im Rest der Seite). */
-	.btn {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		padding: 0.55em 1em;
-		border-radius: 0.7em;
-		border: 1.5px solid rgba(0, 0, 0, 0.12);
-		background: rgba(255, 255, 255, 0.6);
-		color: var(--color-text);
-		font-size: 0.85em;
-		font-weight: 600;
-		white-space: nowrap;
-		cursor: pointer;
-		transition:
-			background 0.15s ease,
-			border-color 0.15s ease,
-			transform 0.15s ease,
-			color 0.15s ease;
-	}
-
-	.btn:hover {
-		border-color: rgba(0, 0, 0, 0.35);
-		transform: translateY(-0.1em);
-	}
-
-	/* Aktiver Like-Toggle: dezent in der Theme-Akzentfarbe eingefärbt,
-	   beim Hover (zum Ausschalten) vollflächig gefüllt. */
-	.btn-toggle.active {
-		background: rgba(255, 62, 0, 0.12);
-		border-color: rgba(255, 62, 0, 0.45);
-		color: var(--color-theme-1);
-	}
-
-	.btn-toggle.active:hover {
-		background: var(--color-theme-1);
-		border-color: var(--color-theme-1);
-		color: #fff;
-	}
-
-	/* Reset ist destruktiv -> erst beim Hover farblich warnen, nicht
-	   dauerhaft rot einfärben. */
-	.btn-reset:hover {
-		background: rgba(255, 62, 0, 0.08);
-		border-color: rgba(255, 62, 0, 0.35);
-		color: var(--color-theme-1);
+	/* .link-button(.dark) kommt aus app.css (gleicher Button-Stil wie die
+	   CTAs auf der Startseite). Hier nur die für einen freistehenden
+	   Hero-Button gedachten Außenabstände/Zentrierung zurückgesetzt,
+	   damit er sich in eine kompakte Aktionsleiste einfügt. */
+	.actions .link-button {
+		margin-top: 0;
+		margin-inline: 0;
 	}
 
 	table {
