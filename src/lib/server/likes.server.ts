@@ -127,7 +127,15 @@ export async function getVisibleHeartsCourses(): Promise<{
 		redis.smembers(heartsVisibleKey('games')),
 		redis.smembers(heartsVisibleKey('websites'))
 	]);
-	return { games: games as string[], websites: websites as string[] };
+	// Der Upstash-Client versucht, gelesene Set-Mitglieder als JSON zu
+	// parsen. Eine Kurs-ID wie "1" ist zufällig auch gültiges JSON für die
+	// Zahl 1 -> ohne explizite String-Umwandlung käme hier eine number
+	// zurück, die im Frontend per strict-equality (Set.has) nie zur
+	// (string) courseID passt.
+	return {
+		games: (games as unknown[]).map(String),
+		websites: (websites as unknown[]).map(String)
+	};
 }
 
 /**
