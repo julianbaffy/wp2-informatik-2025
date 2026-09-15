@@ -1,6 +1,10 @@
 import { json, error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { getLikeInfoForIds, toggleVote } from '$lib/server/likes.server';
+import {
+	getLikeInfoForIds,
+	getVisibleHeartsCourses,
+	toggleVote
+} from '$lib/server/likes.server';
 import { getOrCreateVoterId } from '$lib/server/voter.server';
 import gameLinksData from '$lib/generated/games/games.json';
 import websiteLinksData from '$lib/generated/websites/links.json';
@@ -14,11 +18,18 @@ function allIds(): string[] {
 	return [...new Set([...gameIds, ...websiteIds])];
 }
 
-/** Liefert Zähler + "schon abgestimmt"-Status für alle Spiele/Websites in einem Rutsch. */
+/**
+ * Liefert Zähler + "schon abgestimmt"-Status für alle Spiele/Websites in
+ * einem Rutsch, zusammen mit den Kursen, für die die Herzen-Anzeige im
+ * Admin-Bereich aktiviert wurde (spart einen zusätzlichen Poll-Request).
+ */
 export const GET: RequestHandler = async ({ cookies }) => {
 	const voterId = getOrCreateVoterId(cookies);
-	const result = await getLikeInfoForIds(allIds(), voterId);
-	return json(result);
+	const [likes, heartsVisible] = await Promise.all([
+		getLikeInfoForIds(allIds(), voterId),
+		getVisibleHeartsCourses()
+	]);
+	return json({ likes, heartsVisible });
 };
 
 /** Schaltet den Like für eine einzelne Seite um (setzen oder entfernen). */

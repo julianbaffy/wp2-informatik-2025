@@ -3,6 +3,7 @@
     import Download1 from "$lib/images/download1.svelte";
     import OnlineGaming from "$lib/images/online-gaming.svelte";
     import LikeButton from "../LikeButton.svelte";
+    import { showHeartsFor } from "$lib/stores/likes.svelte";
 
   let {courseID = "1", links} : {courseID: string, links: GameLink[]} = $props()
   // Filtere die Links basierend auf der übergebenen CourseID
@@ -256,7 +257,9 @@
           <div class="card-body">
             <div class="flex justify-between items-center">
               <h3>{link.title}</h3>
-              <LikeButton id={link.id} courseID={link.courseID} />
+              {#if showHeartsFor(link.courseID, 'games')}
+                <LikeButton id={link.id} courseID={link.courseID} />
+              {/if}
             </div>
             {#if link.description}
               <p>{link.description}</p>

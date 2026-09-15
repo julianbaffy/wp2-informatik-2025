@@ -1,6 +1,7 @@
  <script lang="ts">
   import ArrowToIcon from "$lib/images/ArrowToIcon.svelte";
 	import LikeButton from "../LikeButton.svelte";
+	import { showHeartsFor } from "$lib/stores/likes.svelte";
 	import type { WebsiteLink } from "$lib/types/customTypes";
 	import DeviceMockups from "./DeviceMockups.svelte";
 
@@ -238,7 +239,9 @@
           <div class="card-body">
           <div class="flex justify-between items-center gap-[0.6em]">
             <h3>{link.title}</h3>
-            <LikeButton id={link.id} courseID={link.courseID} />
+            {#if showHeartsFor(link.courseID, 'websites')}
+              <LikeButton id={link.id} courseID={link.courseID} />
+            {/if}
           </div>
             {#if link.description}
               <p>{link.description}</p>

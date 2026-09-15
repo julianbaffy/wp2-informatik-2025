@@ -1,6 +1,12 @@
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import { ensureCourseTracking, getCounts, resetPages } from '$lib/server/likes.server';
+import {
+	ensureCourseTracking,
+	getCounts,
+	getVisibleHeartsCourses,
+	resetPages,
+	toggleHeartsVisibility
+} from '$lib/server/likes.server';
 import gameCoursesData from '$lib/generated/games/courses.json';
 import gameLinksData from '$lib/generated/games/games.json';
 import websiteCoursesData from '$lib/generated/websites/courses.json';
@@ -24,6 +30,10 @@ export const load: PageServerLoad = async () => {
 	const allCourses = Array.from(courseMap.values()).sort((a, b) =>
 		a.courseID.localeCompare(b.courseID)
 	);
+
+	const heartsVisible = await getVisibleHeartsCourses();
+	const gamesHeartsVisible = new Set(heartsVisible.games);
+	const websitesHeartsVisible = new Set(heartsVisible.websites);
 
 	const courseOverviews = [];
 	for (const course of allCourses) {
@@ -49,7 +59,9 @@ export const load: PageServerLoad = async () => {
 				id: w.id,
 				title: w.title,
 				count: counts[w.id] ?? 0
-			}))
+			})),
+			gamesHeartsVisible: gamesHeartsVisible.has(course.courseID),
+			websitesHeartsVisible: websitesHeartsVisible.has(course.courseID)
 		});
 	}
 
@@ -90,5 +102,29 @@ export const actions: Actions = {
 
 		await resetPages(idsForCourse(courseID, 'websites'));
 		return { success: true, resetCourseID: courseID, resetType: 'websites' as const };
+	},
+
+	toggleGamesHearts: async ({ request }) => {
+		const data = await request.formData();
+		const courseID = data.get('courseID');
+
+		if (typeof courseID !== 'string' || !courseID) {
+			return fail(400, { error: 'Kurs fehlt.' });
+		}
+
+		const visible = await toggleHeartsVisibility('games', courseID);
+		return { toggled: true, toggleCourseID: courseID, toggleType: 'games' as const, visible };
+	},
+
+	toggleWebsitesHearts: async ({ request }) => {
+		const data = await request.formData();
+		const courseID = data.get('courseID');
+
+		if (typeof courseID !== 'string' || !courseID) {
+			return fail(400, { error: 'Kurs fehlt.' });
+		}
+
+		const visible = await toggleHeartsVisibility('websites', courseID);
+		return { toggled: true, toggleCourseID: courseID, toggleType: 'websites' as const, visible };
 	}
 };

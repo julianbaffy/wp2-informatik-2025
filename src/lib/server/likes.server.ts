@@ -111,3 +111,41 @@ export async function resetPages(ids: string[]): Promise<void> {
 	}
 	await pipeline.exec();
 }
+
+const heartsVisibleKey = (type: 'games' | 'websites') => `hearts-visible:${type}`;
+
+/**
+ * Liefert für beide Projekttypen die Kurs-IDs, für die im Admin-Bereich
+ * die Herzen-Anzeige aktiviert wurde (Opt-in: standardmäßig leer, also
+ * unsichtbar, bis ein Kurs explizit freigeschaltet wird).
+ */
+export async function getVisibleHeartsCourses(): Promise<{
+	games: string[];
+	websites: string[];
+}> {
+	const [games, websites] = await Promise.all([
+		redis.smembers(heartsVisibleKey('games')),
+		redis.smembers(heartsVisibleKey('websites'))
+	]);
+	return { games: games as string[], websites: websites as string[] };
+}
+
+/**
+ * Schaltet die Herzen-Sichtbarkeit für einen Kurs (pro Projekttyp einzeln,
+ * analog zum getrennten Reset) um und gibt den neuen Zustand zurück.
+ */
+export async function toggleHeartsVisibility(
+	type: 'games' | 'websites',
+	courseID: string
+): Promise<boolean> {
+	const key = heartsVisibleKey(type);
+	const isVisible = (await redis.sismember(key, courseID)) === 1;
+
+	if (isVisible) {
+		await redis.srem(key, courseID);
+		return false;
+	}
+
+	await redis.sadd(key, courseID);
+	return true;
+}

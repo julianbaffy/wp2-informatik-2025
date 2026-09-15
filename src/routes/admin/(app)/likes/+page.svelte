@@ -29,6 +29,13 @@
 	</p>
 {/if}
 
+{#if form?.toggled}
+	<p class="notice">
+		Herzen für {form.toggleType === 'games' ? 'Spiele' : 'Websites'} in Kurs {form.toggleCourseID}
+		sind jetzt {form.visible ? 'sichtbar' : 'ausgeblendet'}.
+	</p>
+{/if}
+
 {#each data.courses as course}
 	<section class="course">
 		<h2>Kurs {course.courseID} ({course.teacher})</h2>
@@ -40,12 +47,20 @@
 		{#if course.games.length > 0}
 			<div class="section-header">
 				<h3>Spiele</h3>
-				<form method="POST" action="?/resetGames" use:enhance>
-					<input type="hidden" name="courseID" value={course.courseID} />
-					<button type="submit" onclick={(e) => confirmReset(e, course.courseID, 'Spiele')}>
-						Spiele zurücksetzen
-					</button>
-				</form>
+				<div class="actions">
+					<form method="POST" action="?/toggleGamesHearts" use:enhance>
+						<input type="hidden" name="courseID" value={course.courseID} />
+						<button type="submit" class="toggle" class:active={course.gamesHeartsVisible}>
+							Herzen {course.gamesHeartsVisible ? 'ausblenden' : 'anzeigen'}
+						</button>
+					</form>
+					<form method="POST" action="?/resetGames" use:enhance>
+						<input type="hidden" name="courseID" value={course.courseID} />
+						<button type="submit" onclick={(e) => confirmReset(e, course.courseID, 'Spiele')}>
+							Spiele zurücksetzen
+						</button>
+					</form>
+				</div>
 			</div>
 			<table>
 				<thead>
@@ -68,12 +83,20 @@
 		{#if course.websites.length > 0}
 			<div class="section-header">
 				<h3>Websites</h3>
-				<form method="POST" action="?/resetWebsites" use:enhance>
-					<input type="hidden" name="courseID" value={course.courseID} />
-					<button type="submit" onclick={(e) => confirmReset(e, course.courseID, 'Websites')}>
-						Websites zurücksetzen
-					</button>
-				</form>
+				<div class="actions">
+					<form method="POST" action="?/toggleWebsitesHearts" use:enhance>
+						<input type="hidden" name="courseID" value={course.courseID} />
+						<button type="submit" class="toggle" class:active={course.websitesHeartsVisible}>
+							Herzen {course.websitesHeartsVisible ? 'ausblenden' : 'anzeigen'}
+						</button>
+					</form>
+					<form method="POST" action="?/resetWebsites" use:enhance>
+						<input type="hidden" name="courseID" value={course.courseID} />
+						<button type="submit" onclick={(e) => confirmReset(e, course.courseID, 'Websites')}>
+							Websites zurücksetzen
+						</button>
+					</form>
+				</div>
 			</div>
 			<table>
 				<thead>
@@ -113,6 +136,23 @@
 		margin: 0;
 		font-size: 1em;
 		color: #555;
+	}
+
+	.actions {
+		display: flex;
+		gap: 0.5rem;
+		flex-wrap: wrap;
+	}
+
+	.toggle {
+		background: rgba(0, 0, 0, 0.05);
+		border: 1px solid rgba(0, 0, 0, 0.15);
+	}
+
+	.toggle.active {
+		background: rgba(200, 0, 60, 0.12);
+		border-color: rgba(200, 0, 60, 0.4);
+		color: #b0003c;
 	}
 
 	table {
