@@ -31,7 +31,7 @@
 
 {#if form?.toggled}
 	<p class="notice">
-		Herzen für {form.toggleType === 'games' ? 'Spiele' : 'Websites'} in Kurs {form.toggleCourseID}
+		Likes für {form.toggleType === 'games' ? 'Spiele' : 'Websites'} in Kurs {form.toggleCourseID}
 		sind jetzt {form.visible ? 'sichtbar' : 'ausgeblendet'}.
 	</p>
 {/if}
@@ -50,13 +50,17 @@
 				<div class="actions">
 					<form method="POST" action="?/toggleGamesHearts" use:enhance>
 						<input type="hidden" name="courseID" value={course.courseID} />
-						<button type="submit" class="toggle" class:active={course.gamesHeartsVisible}>
-							Herzen {course.gamesHeartsVisible ? 'ausblenden' : 'anzeigen'}
+						<button type="submit" class="btn btn-toggle" class:active={course.gamesHeartsVisible}>
+							{course.gamesHeartsVisible ? 'Likes ausblenden' : 'Likes anzeigen'}
 						</button>
 					</form>
 					<form method="POST" action="?/resetGames" use:enhance>
 						<input type="hidden" name="courseID" value={course.courseID} />
-						<button type="submit" onclick={(e) => confirmReset(e, course.courseID, 'Spiele')}>
+						<button
+							type="submit"
+							class="btn btn-reset"
+							onclick={(e) => confirmReset(e, course.courseID, 'Spiele')}
+						>
 							Spiele zurücksetzen
 						</button>
 					</form>
@@ -86,13 +90,21 @@
 				<div class="actions">
 					<form method="POST" action="?/toggleWebsitesHearts" use:enhance>
 						<input type="hidden" name="courseID" value={course.courseID} />
-						<button type="submit" class="toggle" class:active={course.websitesHeartsVisible}>
-							Herzen {course.websitesHeartsVisible ? 'ausblenden' : 'anzeigen'}
+						<button
+							type="submit"
+							class="btn btn-toggle"
+							class:active={course.websitesHeartsVisible}
+						>
+							{course.websitesHeartsVisible ? 'Likes ausblenden' : 'Likes anzeigen'}
 						</button>
 					</form>
 					<form method="POST" action="?/resetWebsites" use:enhance>
 						<input type="hidden" name="courseID" value={course.courseID} />
-						<button type="submit" onclick={(e) => confirmReset(e, course.courseID, 'Websites')}>
+						<button
+							type="submit"
+							class="btn btn-reset"
+							onclick={(e) => confirmReset(e, course.courseID, 'Websites')}
+						>
 							Websites zurücksetzen
 						</button>
 					</form>
@@ -120,7 +132,23 @@
 
 <style>
 	.course {
-		margin-bottom: 2rem;
+		margin-bottom: 1.75rem;
+		padding: 1.4em 1.6em;
+		background: rgba(255, 255, 255, 0.55);
+		-webkit-backdrop-filter: blur(10px);
+		backdrop-filter: blur(10px);
+		border: 1px solid rgba(255, 255, 255, 0.4);
+		border-radius: 1em;
+		box-shadow: 0 0.35em 1.2em rgba(0, 0, 0, 0.08);
+	}
+
+	.course h2 {
+		margin: 0 0 0.7em;
+		padding: 0 0 0.5em;
+		font-size: 1.25em;
+		font-weight: 700;
+		color: var(--color-text);
+		border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 	}
 
 	.section-header {
@@ -129,13 +157,17 @@
 		align-items: center;
 		gap: 1rem;
 		flex-wrap: wrap;
-		margin-top: 1rem;
+		margin-top: 1.2rem;
+		margin-bottom: 0.4rem;
 	}
 
 	.section-header h3 {
 		margin: 0;
-		font-size: 1em;
-		color: #555;
+		font-size: 0.85em;
+		font-weight: 700;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		color: rgba(0, 0, 0, 0.45);
 	}
 
 	.actions {
@@ -144,43 +176,93 @@
 		flex-wrap: wrap;
 	}
 
-	.toggle {
-		background: rgba(0, 0, 0, 0.05);
-		border: 1px solid rgba(0, 0, 0, 0.15);
+	/* Einheitlicher Grundstil für alle Aktions-Buttons, angelehnt an
+	   .link-button aus den Grid-Komponenten (gleiche Radien, Border-
+	   und Hover-Sprache wie im Rest der Seite). */
+	.btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.55em 1em;
+		border-radius: 0.7em;
+		border: 1.5px solid rgba(0, 0, 0, 0.12);
+		background: rgba(255, 255, 255, 0.6);
+		color: var(--color-text);
+		font-size: 0.85em;
+		font-weight: 600;
+		white-space: nowrap;
+		cursor: pointer;
+		transition:
+			background 0.15s ease,
+			border-color 0.15s ease,
+			transform 0.15s ease,
+			color 0.15s ease;
 	}
 
-	.toggle.active {
-		background: rgba(200, 0, 60, 0.12);
-		border-color: rgba(200, 0, 60, 0.4);
-		color: #b0003c;
+	.btn:hover {
+		border-color: rgba(0, 0, 0, 0.35);
+		transform: translateY(-0.1em);
+	}
+
+	/* Aktiver Like-Toggle: dezent in der Theme-Akzentfarbe eingefärbt,
+	   beim Hover (zum Ausschalten) vollflächig gefüllt. */
+	.btn-toggle.active {
+		background: rgba(255, 62, 0, 0.12);
+		border-color: rgba(255, 62, 0, 0.45);
+		color: var(--color-theme-1);
+	}
+
+	.btn-toggle.active:hover {
+		background: var(--color-theme-1);
+		border-color: var(--color-theme-1);
+		color: #fff;
+	}
+
+	/* Reset ist destruktiv -> erst beim Hover farblich warnen, nicht
+	   dauerhaft rot einfärben. */
+	.btn-reset:hover {
+		background: rgba(255, 62, 0, 0.08);
+		border-color: rgba(255, 62, 0, 0.35);
+		color: var(--color-theme-1);
 	}
 
 	table {
 		width: 100%;
 		border-collapse: collapse;
-		margin-top: 0.3rem;
+		margin-top: 0.5rem;
+		font-size: 0.92em;
 	}
 
-	th,
+	th {
+		text-align: left;
+		padding: 0.5em 0.7em;
+		font-size: 0.75em;
+		font-weight: 700;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		color: rgba(0, 0, 0, 0.4);
+		border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+	}
+
 	td {
 		text-align: left;
-		padding: 0.4rem 0.6rem;
-		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+		padding: 0.5em 0.7em;
+		border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+	}
+
+	tbody tr:last-child td {
+		border-bottom: none;
 	}
 
 	.empty {
-		color: #666;
+		color: rgba(0, 0, 0, 0.5);
 		font-style: italic;
 	}
 
 	.notice {
 		background: rgba(0, 150, 0, 0.1);
 		border: 1px solid rgba(0, 150, 0, 0.3);
-		padding: 0.5rem 0.75rem;
-		border-radius: 0.3rem;
-	}
-
-	button {
-		cursor: pointer;
+		padding: 0.6rem 0.9rem;
+		border-radius: 0.7em;
 	}
 </style>
