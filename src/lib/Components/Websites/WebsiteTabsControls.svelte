@@ -101,7 +101,7 @@ $effect(() => {
 }
 
 .teacher{
-    font-size: 10;
+    font-size: 14px;
     line-height: 0.9;
 }
 
