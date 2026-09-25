@@ -133,7 +133,8 @@
 
     .tab-controls{
         overflow-x: hidden;
-        overflow-y: hidden;
+        /* NICHT overflow-y:hidden -> sonst wird der per negativem Margin nach
+           oben ragende Tab-Text (IF/Kürzel/Kursnummer) abgeschnitten. */
     }
 
 .sticky-blur-overlay {

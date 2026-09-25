@@ -135,13 +135,15 @@
 
     .tab-controls{
         overflow-x: hidden;
-        overflow-y: hidden;
+        /* NICHT overflow-y:hidden -> sonst wird der per negativem Margin nach
+           oben ragende Tab-Text (IF/BAF/Kursnummer) abgeschnitten. */
         pointer-events: auto;
     }
 
     .tab-buttons-inner{
         overflow-x: hidden;
-        overflow-y: hidden;
+        /* NICHT overflow-y:hidden -> sonst wird der per negativem Margin nach
+           oben ragende Tab-Text (IF/BAF/Kursnummer) abgeschnitten. */
     }
 
 .sticky-blur-overlay {
