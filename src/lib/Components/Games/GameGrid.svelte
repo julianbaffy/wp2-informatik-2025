@@ -323,7 +323,7 @@
             <div class="footer-row">
               <div class="link-container">
                 {#if link.onlineUrl}
-                  <a href={link.onlineUrl} target="_blank" rel="noopener" onclick={blurOnClick}>
+                  <a href={link.onlineUrl} target="_blank" rel="noopener">
                     <button class="link-button active" title="Online spielen">
                       <span class="icon-wrapper"><OnlineGaming /></span>
                     </button>
