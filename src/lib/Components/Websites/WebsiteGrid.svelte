@@ -4,6 +4,8 @@
 	import { showHeartsFor } from "$lib/stores/likes.svelte";
 	import type { WebsiteLink } from "$lib/types/customTypes";
 	import DeviceMockups from "./DeviceMockups.svelte";
+  import websiteThumbnailFallback from "$lib/images/WebsiteThumbnailFallbackNew.png";
+	import { onMount, tick } from "svelte";
 
   let {courseID = "1", links} : {courseID: string, links: WebsiteLink[]} = $props()
 
@@ -11,6 +13,43 @@
   let filteredLinks = $derived(links.filter(link => link.courseID === courseID));
 
   filteredLinks = filteredLinks.sort((a, b) => a.title.localeCompare(b.title));
+
+  let gridEl: HTMLDivElement | undefined = $state();
+  let slotEls: (HTMLDivElement | undefined)[] = [];
+
+  // Markiert Karten am Rand des Grids (letzte Zeile, erste/letzte Spalte), damit
+  // sie beim Hover-Zoom nur nach innen bzw. nach oben wachsen statt über den
+  // Bildschirmrand hinaus.
+  function updateEdgeClasses() {
+    const els = slotEls.filter((el): el is HTMLDivElement => !!el);
+    if (!els.length) return;
+    const maxTop = Math.max(...els.map((el) => el.offsetTop));
+    const lefts = els.map((el) => el.offsetLeft);
+    const minLeft = Math.min(...lefts);
+    const maxLeft = Math.max(...lefts);
+    const singleColumn = minLeft === maxLeft;
+    els.forEach((el) => {
+      el.classList.toggle("last-row", el.offsetTop === maxTop);
+      el.classList.toggle("first-col", !singleColumn && el.offsetLeft === minLeft);
+      el.classList.toggle("last-col", !singleColumn && el.offsetLeft === maxLeft);
+    });
+  }
+
+  $effect(() => {
+    filteredLinks;
+    tick().then(updateEdgeClasses);
+  });
+
+  onMount(() => {
+    const ro = new ResizeObserver(() => updateEdgeClasses());
+    if (gridEl) ro.observe(gridEl);
+    window.addEventListener("resize", updateEdgeClasses);
+
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", updateEdgeClasses);
+    };
+  });
 </script>
 
 <style>
@@ -40,9 +79,8 @@
     z-index: 1;
   }
 
-  .card-slot:hover,
-  .card-slot:focus-within {
-    /* über die Nachbarkarten heben, während gehovert/fokussiert wird */
+  .card-slot:hover {
+    /* über die Nachbarkarten heben, während gehovert wird */
     z-index: 30;
   }
 
@@ -59,11 +97,16 @@
     background-color: rgba(255, 255, 255, 0.55);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.4);
     border-radius: 1em;
     overflow: hidden;
     box-shadow: 0 0.35em 1.2em rgba(0, 0, 0, 0.1);
-    transform-origin: 50% 50%;
+    /* Werden je nach Rand-Position (Zeile/Spalte) unten überschrieben,
+       damit die Karte nur nach innen bzw. oben wächst statt über den
+       Bildschirmrand hinaus. */
+    --origin-x: 50%;
+    --origin-y: 50%;
+    --row-lift: 0%;
+    transform-origin: var(--origin-x) var(--origin-y);
     transition: transform 0.28s cubic-bezier(0.25, 0.8, 0.25, 1),
       box-shadow 0.28s ease;
     will-change: transform;
@@ -80,10 +123,25 @@
     z-index: 1;
   }
 
-  .card-slot:hover .card,
-  .card-slot:focus-within .card {
-    transform: scale(1.25);
+  .card-slot:hover .card {
+    transform: scale(1.25) translateY(var(--row-lift));
     box-shadow: 0 1.5em 3em rgba(0, 0, 0, 0.35);
+  }
+
+  /* Erste/letzte Spalte: nur nach innen (rechts bzw. links) vergrößern. */
+  :global(.card-slot.first-col) .card {
+    --origin-x: 0%;
+  }
+
+  :global(.card-slot.last-col) .card {
+    --origin-x: 100%;
+  }
+
+  /* Letzte Zeile: nach oben statt nach unten vergrößern und zusätzlich ein
+     Stück anheben, damit der komplette Card-Body sichtbar bleibt. */
+  :global(.card-slot.last-row) .card {
+    --origin-y: 100%;
+    --row-lift: -15%;
   }
 
   .thumb-wrapper {
@@ -119,8 +177,7 @@
     text-align: center;
     font-weight: 700;
     font-size: 1.1em;
-    color: #fff;
-    text-shadow: 0 0.1em 0.3em rgba(0, 0, 0, 0.4);
+    text-shadow: 0 0.1em 0.3em rgba(255, 254, 254, 0.4);
   }
 
   .arrow-button {
@@ -160,8 +217,7 @@
     margin-top: 0.3em;
   }
 
-  .card-slot:hover .card-body,
-  .card-slot:focus-within .card-body {
+  .card-slot:hover .card-body {
     max-height: 320px;
     opacity: 1;
     padding: 1em 1.2em 1.2em;
@@ -190,8 +246,7 @@
   /* Touch-Geräte haben kein zuverlässiges :hover -> Karte gleich
      komplett anzeigen, statt Infos hinter einer Geste zu verstecken. */
   @media (hover: none), (pointer: coarse) {
-    .card-slot:hover,
-    .card-slot:focus-within {
+    .card-slot:hover {
       /* Ohne Zoom-Effekt darf die Karte hier nicht über
          andere UI-Elemente (z. B. Tab-Controls) ragen. */
       z-index: 1;
@@ -215,15 +270,15 @@
   }
 </style>
 
-<div class="grid-container">
+<div class="grid-container" bind:this={gridEl}>
   {#if filteredLinks.length === 0}
     <div class="empty-state">
       <p class="websites text-2xl">404 NOT FOUND</p>
       <p>Für diesen Kurs wurden noch keine Websites veröffentlicht.</p>
     </div>
   {:else}
-    {#each filteredLinks as link}
-      <div class="card-slot">
+    {#each filteredLinks as link, i}
+      <div class="card-slot" bind:this={slotEls[i]}>
         <div class="card">
           <a class="card-link" href={link.url} aria-label={link.title}></a>
 
@@ -231,7 +286,7 @@
             {#if link.thumbnailUrl}
               <img src={link.thumbnailUrl} alt={link.title} loading="lazy" />
             {:else}
-              <DeviceMockups />
+              <img src={websiteThumbnailFallback} alt={link.title} loading="lazy" />
               <span class="thumb-title">{link.title}</span>
             {/if}
           </div>

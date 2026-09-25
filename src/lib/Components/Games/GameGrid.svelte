@@ -4,6 +4,8 @@
     import OnlineGaming from "$lib/images/online-gaming.svelte";
     import LikeButton from "../LikeButton.svelte";
     import { showHeartsFor } from "$lib/stores/likes.svelte";
+    import { onMount, tick } from "svelte";
+    import GamesThumbnailFallback from "$lib/images/GamesThumbnailFallback.png";
 
   let {courseID = "1", links} : {courseID: string, links: GameLink[]} = $props()
   // Filtere die Links basierend auf der übergebenen CourseID
@@ -11,12 +13,47 @@
 
   filteredLinks = filteredLinks.sort((a, b) => a.title.localeCompare(b.title));
 
-  const fallbackThumbnail =
-  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 225'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%236366f1'/%3E%3Cstop offset='100%25' stop-color='%23a855f7'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='225' fill='url(%23g)'/%3E%3Cg fill='white' opacity='0.9' transform='translate(0,-35)'%3E%3Crect x='150' y='95' width='100' height='55' rx='16'/%3E%3Ccircle cx='175' cy='122' r='9' fill='%236366f1'/%3E%3Ccircle cx='225' cy='112' r='6' fill='%236366f1'/%3E%3Ccircle cx='240' cy='128' r='6' fill='%236366f1'/%3E%3C/g%3E%3C/svg%3E";
-
   function handleImgError(event: Event) {
-    (event.currentTarget as HTMLImageElement).src = fallbackThumbnail;
+    (event.currentTarget as HTMLImageElement).src = GamesThumbnailFallback;
   }
+
+  let gridEl: HTMLDivElement | undefined = $state();
+  let slotEls: (HTMLDivElement | undefined)[] = [];
+
+  // Markiert Karten am Rand des Grids (letzte Zeile, erste/letzte Spalte), damit
+  // sie beim Hover-Zoom nur nach innen bzw. nach oben wachsen statt über den
+  // Bildschirmrand hinaus.
+  function updateEdgeClasses() {
+    const els = slotEls.filter((el): el is HTMLDivElement => !!el);
+    if (!els.length) return;
+    const maxTop = Math.max(...els.map((el) => el.offsetTop));
+    const lefts = els.map((el) => el.offsetLeft);
+    const minLeft = Math.min(...lefts);
+    const maxLeft = Math.max(...lefts);
+    const singleColumn = minLeft === maxLeft;
+    els.forEach((el) => {
+      el.classList.toggle("last-row", el.offsetTop === maxTop);
+      el.classList.toggle("first-col", !singleColumn && el.offsetLeft === minLeft);
+      el.classList.toggle("last-col", !singleColumn && el.offsetLeft === maxLeft);
+    });
+  }
+
+  $effect(() => {
+    filteredLinks;
+    tick().then(updateEdgeClasses);
+  });
+
+  onMount(() => {
+    const ro = new ResizeObserver(() => updateEdgeClasses());
+    if (gridEl) ro.observe(gridEl);
+    window.addEventListener("resize", updateEdgeClasses);
+
+
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", updateEdgeClasses);
+    };
+  });
 
 </script>
 
@@ -73,20 +110,40 @@
     background-color: rgba(255, 255, 255, 0.55);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.4);
     border-radius: 1em;
     overflow: hidden;
     box-shadow: 0 0.35em 1.2em rgba(0, 0, 0, 0.1);
-    transform-origin: 50% 50%;
+    /* Werden je nach Rand-Position (Zeile/Spalte) unten überschrieben,
+       damit die Karte nur nach innen bzw. oben wächst statt über den
+       Bildschirmrand hinaus. */
+    --origin-x: 50%;
+    --origin-y: 50%;
+    --row-lift: 0%;
+    transform-origin: var(--origin-x) var(--origin-y);
     transition: transform 0.28s cubic-bezier(0.25, 0.8, 0.25, 1),
       box-shadow 0.28s ease;
     will-change: transform;
   }
 
-  .card-slot:hover .card,
-  .card-slot:focus-within .card {
-    transform: scale(1.25);
+  .card-slot:hover .card {
+    transform: scale(1.25) translateY(var(--row-lift));
     box-shadow: 0 1.5em 3em rgba(0, 0, 0, 0.35);
+  }
+
+  /* Erste/letzte Spalte: nur nach innen (rechts bzw. links) vergrößern. */
+  :global(.card-slot.first-col) .card {
+    --origin-x: 0%;
+  }
+
+  :global(.card-slot.last-col) .card {
+    --origin-x: 100%;
+  }
+
+  /* Letzte Zeile: nach oben statt nach unten vergrößern und zusätzlich ein
+     Stück anheben, damit der komplette Card-Body sichtbar bleibt. */
+  :global(.card-slot.last-row) .card {
+    --origin-y: 100%;
+    --row-lift: -15%;
   }
 
   .thumb-wrapper {
@@ -116,8 +173,7 @@
     text-align: center;
     font-weight: 700;
     font-size: 1.1em;
-    color: #fff;
-    text-shadow: 0 0.1em 0.3em rgba(0, 0, 0, 0.4);
+    text-shadow: 0 0.1em 0.3em rgba(255, 254, 254, 0.4);
   }
 
   /* Standardmäßig unsichtbar/eingeklappt -> "zunächst nur Thumbnail" */
@@ -132,8 +188,7 @@
       padding 0.32s ease;
   }
 
-  .card-slot:hover .card-body,
-  .card-slot:focus-within .card-body {
+  .card-slot:hover .card-body {
     max-height: 320px;
     opacity: 1;
     padding: 1em 1.2em 1.2em;
@@ -232,19 +287,19 @@
   }
 </style>
 
-<div class="grid-container">
+<div class="grid-container" bind:this={gridEl}>
   {#if filteredLinks.length === 0}
     <div class="empty-state">
       <p class="games">GAME OVER</p>
       <p>Für diesen Kurs wurden noch keine Spiele veröffentlicht.</p>
     </div>
   {:else}
-    {#each filteredLinks as link}
-      <div class="card-slot">
+    {#each filteredLinks as link, i}
+      <div class="card-slot" bind:this={slotEls[i]}>
         <div class="card">
           <div class="thumb-wrapper">
             <img
-              src={link.thumbnailUrl || fallbackThumbnail}
+              src={link.thumbnailUrl || GamesThumbnailFallback}
               alt={link.title}
               loading="lazy"
               onerror={handleImgError}
@@ -268,7 +323,7 @@
             <div class="footer-row">
               <div class="link-container">
                 {#if link.onlineUrl}
-                  <a href={link.onlineUrl} target="_blank" rel="noopener">
+                  <a href={link.onlineUrl} target="_blank" rel="noopener" onclick={blurOnClick}>
                     <button class="link-button active" title="Online spielen">
                       <span class="icon-wrapper"><OnlineGaming /></span>
                     </button>
