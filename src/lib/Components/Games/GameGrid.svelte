@@ -298,12 +298,14 @@
       <div class="card-slot" bind:this={slotEls[i]}>
         <div class="card">
           <div class="thumb-wrapper">
+          <a href={link.onlineUrl} target="_blank" rel="noopener">
             <img
               src={link.thumbnailUrl || GamesThumbnailFallback}
               alt={link.title}
               loading="lazy"
               onerror={handleImgError}
             />
+            </a>
             {#if !link.thumbnailUrl}
               <span class="thumb-title">{link.title}</span>
             {/if}
