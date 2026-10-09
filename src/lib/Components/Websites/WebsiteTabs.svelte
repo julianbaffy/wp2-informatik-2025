@@ -99,7 +99,7 @@
 		<div class="sticky-blur-overlay pointer-events-none"></div>
 	{/if}
 
-    <div class="tab-controls sticky top-14 w-full h-auto flex relative pb-4 z-20">
+    <div class="tab-controls sticky top-14 w-full h-auto flex relative pb-4 z-20 overflow-hidden">
 		{#each courses as course}
 			<div class="button-container w-full text-center py-4 border-gray-400 {currentPosition === course.courseID ? 'border-x border-t rounded-t-[8px] bg-gradient-to-b from-white to-transparent' : 'border-b-1 hover:bg-gradient-to-t hover:from-white hover:to-transparent'} transition-opacity duration-200">
                 <WebsiteTabsControls courseID={course.courseID} courseTeacher={course.teacher} isActive={currentPosition === course.courseID} smallButtons={smallButtons} openTab={openTab} />

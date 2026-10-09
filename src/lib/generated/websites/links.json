@@ -46,12 +46,5 @@
     "title": "Sophia H",
     "url": "studentpages/1_BAF/Sophia_H/index.html",
     "thumbnailUrl": "studentpages/1_BAF/Sophia_H/thumbnail.png"
-  },
-  {
-    "id": "1_BAF/Test_T",
-    "courseID": "1",
-    "teacher": "BAF",
-    "title": "Test T",
-    "url": "studentpages/1_BAF/Test_T/index.html"
   }
 ]
