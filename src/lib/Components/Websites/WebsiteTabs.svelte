@@ -5,7 +5,7 @@
     import { onMount, onDestroy } from "svelte";
     import type { WebsiteLink } from '$lib/types/customTypes';
     import { page } from "$app/state";
-    import { goto } from "$app/navigation";
+    import { replaceState } from "$app/navigation";
 
     let {courses, links, startPosition='auto', smallButtons=false } = $props();
 
@@ -17,7 +17,7 @@
 
         const newUrl = `${page.url.pathname}?${params.toString()}`;
 
-        goto(newUrl, { replaceState: true, keepFocus: true, noScroll: true });
+        replaceState(newUrl, { replaceState: true, keepFocus: true, noScroll: true });
     }
 
     function openTab(id: string){
